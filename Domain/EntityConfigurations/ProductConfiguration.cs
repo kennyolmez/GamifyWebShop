@@ -21,6 +21,14 @@ namespace Domain.EntityConfigurations
             builder.Property(p => p.Price)
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");
+
+            builder.HasOne(p => p.Brand)
+                .WithMany()
+                .HasForeignKey(p => p.BrandId);
+
+            builder.HasOne(p => p.Category)
+                .WithMany()
+                .HasForeignKey(p => p.CategoryId);
         }
     }
 }
