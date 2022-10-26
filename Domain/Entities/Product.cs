@@ -3,7 +3,7 @@
     public class Product
     {
         // Constructor to reduce amount of code needed when instantiating the object (for example during seeding)
-        public Product(string name, string description, string pictureUri, decimal price, int brandId, Brand brand, int categoryId, Category category, int stock)
+        public Product(string name, string description, string pictureUri, decimal price, int brandId, int categoryId, int stock)
         {
             Name = name;
             Description = description;
