@@ -13,9 +13,9 @@ namespace Infrastructure.Data
     // Create application user
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        DbSet<Brand> Brands { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Product> Products { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         // base accesses members of the base class (identitydbcontext)
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
