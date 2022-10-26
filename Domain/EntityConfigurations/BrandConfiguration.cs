@@ -13,7 +13,7 @@ namespace Domain.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Brand> builder)
         {
-            builder.Property(x => x.Name)
+            builder.Property(b => b.Name)
                 .IsRequired()
                 .HasMaxLength(100);                      
         }

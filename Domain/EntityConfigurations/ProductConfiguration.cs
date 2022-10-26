@@ -23,11 +23,11 @@ namespace Domain.EntityConfigurations
                 .HasColumnType("decimal(18,2)");
 
             builder.HasOne(p => p.Brand)
-                .WithMany()
+                .WithMany(p => p.Products)
                 .HasForeignKey(p => p.BrandId);
 
             builder.HasOne(p => p.Category)
-                .WithMany()
+                .WithMany(p => p.Products)
                 .HasForeignKey(p => p.CategoryId);
         }
     }

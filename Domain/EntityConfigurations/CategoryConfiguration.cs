@@ -14,7 +14,7 @@ namespace Domain.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.Property(x => x.Name)
+            builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(100);
         }
