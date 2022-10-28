@@ -16,35 +16,32 @@ namespace Infrastructure.Data
             var retryForAvailability = retry;
             try
             {
-                if (dbContext.Database.IsSqlServer())
-                {
                     // Create migration
-                    if (dbContext.Database.IsSqlServer())
+                    if (dbContext.Database.IsSqlServer()) 
                     {
                         dbContext.Database.Migrate();
                     }
 
-                    if (!await dbContext.Brands.AnyAsync())
+                    if (!await dbContext.Brands.AnyAsync()) // Async because goes through the database
                     {
-                        await dbContext.Brands.AddRangeAsync(GetBrandSeed());
+                        dbContext.Brands.AddRange(GetBrandSeed()); // Not async because AddAsync is only used when you have custom EF value generators
 
-                        await dbContext.SaveChangesAsync();
+                        await dbContext.SaveChangesAsync(); // Async because hits the DB
                     }
 
                     if (!await dbContext.Categories.AnyAsync())
                     {
-                        await dbContext.Categories.AddRangeAsync(GetCategorySeed());
+                        dbContext.Categories.AddRange(GetCategorySeed());
 
                         await dbContext.SaveChangesAsync();
                     }
 
                     if (!await dbContext.Products.AnyAsync())
                     {
-                        await dbContext.Products.AddRangeAsync(GetProductSeed().ToList());
+                        dbContext.Products.AddRange(GetProductSeed()); 
 
                         await dbContext.SaveChangesAsync();
-                    }
-                }
+                    }               
             }
             catch(Exception ex)
             {

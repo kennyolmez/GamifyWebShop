@@ -20,7 +20,6 @@
         public string PictureUri { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public string EAN { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
         public int CategoryId { get; set; } // Foreign key for clarity, better being more explicit than not 

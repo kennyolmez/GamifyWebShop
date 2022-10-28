@@ -15,7 +15,7 @@ namespace Domain.EntityConfigurations
         {
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             // Configure price property to be decimal with a number length of 18 and two decimal points.
             builder.Property(p => p.Price)
