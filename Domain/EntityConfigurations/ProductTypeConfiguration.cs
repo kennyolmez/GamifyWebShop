@@ -11,13 +11,17 @@ using System.Threading.Tasks;
 
 namespace Domain.EntityConfigurations
 {
-    public class TypeConfiguration : IEntityTypeConfiguration<Type>
+    public class ProductTypeConfiguration : IEntityTypeConfiguration<ProductType>
     {
-        public void Configure(EntityTypeBuilder<Type> builder)
+        public void Configure(EntityTypeBuilder<ProductType> builder)
         {
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(25);
+
+            builder.HasOne(pt => pt.Category)
+                .WithMany(pt => pt.ProductTypes)
+                .HasForeignKey(pt => pt.CategoryId);
         }
     }
 }

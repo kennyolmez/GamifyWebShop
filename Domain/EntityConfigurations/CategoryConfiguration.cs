@@ -17,6 +17,10 @@ namespace Domain.EntityConfigurations
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(100);
+
+            builder.HasMany(c => c.ProductTypes)
+                .WithOne(c => c.Category)
+                .HasForeignKey(c => c.CategoryId);
         }
     }
 }

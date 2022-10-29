@@ -9,6 +9,6 @@
         }
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<ProductType> Types { get; set; }
+        public ICollection<ProductType> ProductTypes { get; set; }
     }
 }
