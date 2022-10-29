@@ -26,9 +26,9 @@ namespace Domain.EntityConfigurations
                 .WithMany(p => p.Products)
                 .HasForeignKey(p => p.BrandId);
 
-            builder.HasOne(p => p.Category)
+            builder.HasOne(p => p.Type)
                 .WithMany(p => p.Products)
-                .HasForeignKey(p => p.CategoryId);
+                .HasForeignKey(p => p.TypeId);
         }
     }
 }

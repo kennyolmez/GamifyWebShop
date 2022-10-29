@@ -1,5 +1,6 @@
-﻿§using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -7,16 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Domain.EntityConfigurations
 {
-    public class BrandConfiguration : IEntityTypeConfiguration<Brand>
+    public class TypeConfiguration : IEntityTypeConfiguration<Type>
     {
-        public void Configure(EntityTypeBuilder<Brand> builder)
+        public void Configure(EntityTypeBuilder<Type> builder)
         {
-            builder.Property(b => b.Name)
+            builder.Property(c => c.Name)
                 .IsRequired()
-                .HasMaxLength(100);                      
+                .HasMaxLength(25);
         }
     }
 }
-§§
