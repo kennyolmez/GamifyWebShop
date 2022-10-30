@@ -30,7 +30,7 @@ namespace Web.Controllers
                 Products = await _services.GetAllProducts(),
             };
 
-            return View();
+            return View(viewModel);
         }
 
 

@@ -1,8 +1,14 @@
-﻿@{
+﻿@using Web.ViewModels.CatalogViewModels
+@{
     ViewData["Title"] = "Home Page";
 }
 
+@model IndexViewModel
 
+@foreach(var p in Model.Products)
+{
+    <p>@p.Name</p>
+}
 
 
 @*Category filter*@
