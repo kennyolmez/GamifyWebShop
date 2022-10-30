@@ -14,15 +14,11 @@ namespace Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index() => View();
-
-        public IActionResult Catalog()
+        public IActionResult Index()
         {
-            // ViewModel populated with all the "types" in category: Peripheral.
-            // Load them into view. 
-
             return View();
         }
+
 
         public IActionResult Privacy() => View();
 
