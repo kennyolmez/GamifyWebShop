@@ -36,6 +36,13 @@ namespace Infrastructure.Data
                         await dbContext.SaveChangesAsync();
                     }
 
+                    if(!await dbContext.ProductTypes.AnyAsync())
+                    {
+                         dbContext.ProductTypes.AddRange(GetProductTypeSeed());
+
+                         await dbContext.SaveChangesAsync();
+                    }
+
                     if (!await dbContext.Products.AnyAsync())
                     {
                         dbContext.Products.AddRange(GetProductSeed()); 
@@ -67,7 +74,9 @@ namespace Infrastructure.Data
                 new("Lethal Gaming Gear"),
                 new("ZOWIE BY BENQ"),
                 new("LG"),
-                new("Logitech")
+                new("Logitech"),
+                new("DXRACER"),
+                new("Microsoft")
             };
         }
 
@@ -75,9 +84,25 @@ namespace Infrastructure.Data
         {
             return new List<Category>
             {
-                new("Monitor"),
-                new("Mouse"),
-                new("Mousepad"),
+                new("PC Peripherals"),
+                new("PC Parts"),
+                new("Console"),
+                new("Gaming Chair")
+            };
+        }
+
+        public static IEnumerable<ProductType> GetProductTypeSeed()
+        {
+            return new List<ProductType>
+            {
+                new("Monitor", 1),
+                new("Mouse", 1),
+                new("Mousepad", 1),
+                new("Console", 3),
+                new("Controller", 3),
+                new("GPU", 2),
+                new("CPU", 2),
+                new("Prince Series", 4)
             };
         }
 
@@ -91,6 +116,8 @@ namespace Infrastructure.Data
                 new("G703 Lightspeed Hero Wireless Gaming Mouse", "Lightspeed wireless gaming mouse by Logitech", "https://www.tradeinn.com/f/13785/137855799_7/logitech-tradlos-mus-g703-lightspeed.jpg", 989, 5, 2, 55),
                 new("Saturn Gaming Mousepad XL", "Carefully crafted mousepad by LGG", "https://www.maxgaming.se/bilder/artiklar/zoom/21236_1.jpg?m=1647359517", 379, 2, 3, 55),
                 new("Venus Gaming Mousepad XL", "Carefully crafted mousepad by LGG", "https://www.maxgaming.se/bilder/artiklar/zoom/21241_1.jpg?m=1647359594", 379, 2, 3, 55),
+                new("PRINCE P08-NW", "Gaming Chair by DXRACER", "https://www.maxgaming.se/bilder/artiklar/38015.jpg?m=1626676331", 2990, 6, 8, 5),
+                new("XBOX Series X", "Console by MICROSOFT", "https://www.elgiganten.se/image/dv_web_D180001002520756/218667/xbox-series-x-1-tb-svart.jpg", 2990, 7, 4, 50),
             };
         }
     }

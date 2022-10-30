@@ -1,27 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 using Web.Models;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class CatalogController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<CatalogController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public CatalogController(ILogger<CatalogController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index() => View();
+
+        public IActionResult Catalog()
         {
+            // ViewModel populated with all the "types" in category: Peripheral.
+            // Load them into view. 
+
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
