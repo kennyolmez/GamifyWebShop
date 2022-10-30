@@ -14,7 +14,6 @@ namespace ApplicationCore.DTOs
         {
             Id = brand.Id;
             Name = brand.Name;
-            Products = brand.Products.Select(x => new ProductDto(x)).ToList();
         }
 
         public int Id { get; set; }

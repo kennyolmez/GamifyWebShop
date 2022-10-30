@@ -11,7 +11,7 @@ namespace Web.Controllers
     public class CatalogController : Controller
     {
         private readonly ILogger<CatalogController> _logger;
-        private readonly CatalogServices _services;
+        private readonly CatalogServices _services; // Rename to catalog services
 
         public CatalogController(ILogger<CatalogController> logger, CatalogServices services)
         {
@@ -27,12 +27,12 @@ namespace Web.Controllers
                 BrandSelected = brandSelected ?? 0,
                 CategorySelected = categorySelected ?? 0,
                 ProductTypeSelected = productTypeSelected ?? 0,
-                Products = await _services.GetAllProducts(),
+                Products = await _services.GetAllProducts(productTypeSelected),
+                ProductType = await _services.GetAllProductTypes()
             };
 
             return View(viewModel);
         }
-
 
         public IActionResult Privacy() => View();
 

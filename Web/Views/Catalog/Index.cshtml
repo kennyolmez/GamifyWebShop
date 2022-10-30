@@ -1,13 +1,36 @@
-﻿@using Web.ViewModels.CatalogViewModels
+﻿@using System.Text.Json
+@using Web.ViewModels.CatalogViewModels
 @{
     ViewData["Title"] = "Home Page";
 }
 
 @model IndexViewModel
 
+@{
+    List<SelectListItem> items = new List<SelectListItem>();
+
+
+    foreach(var item in Model.ProductType)
+    {
+        items.Add(new SelectListItem() {Value = item.Id.ToString(), Text = item.Name.ToString(), Selected = true});
+    }
+}
+
+<form asp-action="Index" asp-controller="Catalog" method="post">
+    <label class="esh-catalog-label" data-title="brand">
+        <select asp-for="@Model.ProductTypeSelected" asp-items="items" class="esh-catalog-filter"></select>
+    </label>
+     <button type="submit" class="btn btn-info" id="searchbutton">Search</button>
+</form>
+
+
 @foreach(var p in Model.Products)
 {
-    <p>@p.Name</p>
+    <ul>
+        <li>@p.Name</li>
+        <li>@p.ProductType.Name</li>
+        <li>@p.Brand.Name</li>
+    </ul>
 }
 
 

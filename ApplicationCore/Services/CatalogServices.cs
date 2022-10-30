@@ -18,14 +18,27 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task<IEnumerable<ProductDto>> GetAllProducts()
+        public async Task<IEnumerable<ProductDto>> GetAllProducts(int? productTypeSelected)
         {
             var products = await _context.Products
-                .Include(p => p.ProductType)
                 .Include(p => p.Brand)
+                .Include(p => p.ProductType)
+                .Where(x => x.ProductTypeId == productTypeSelected)
                 .ToListAsync();
 
-            return products.Select(x => new ProductDto(x)).ToList();
+            var output = products.Select(x => new ProductDto(x)).ToList();
+
+            return output;
+        }
+
+        public async Task<IEnumerable<ProductTypeDto>> GetAllProductTypes()
+        {
+            var productTypes = await _context.ProductTypes
+                .ToListAsync();
+
+            var output = productTypes.Select(x => new ProductTypeDto(x)).ToList();
+
+            return output;
         }
 
     }

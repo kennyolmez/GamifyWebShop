@@ -15,8 +15,6 @@ namespace ApplicationCore.DTOs
             Id = productType.Id;
             Name = productType.Name;
             CategoryId = productType.CategoryId;
-            Category = new CategoryDto(productType.Category);
-            Products = productType.Products.Select(x => new ProductDto(x)).ToList();
         }
 
         public int Id { get; set; }

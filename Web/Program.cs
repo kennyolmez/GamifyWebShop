@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the dependency injection container.
-builder.Services.AddSingleton<CatalogServices>();
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<CatalogServices>();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -17,7 +18,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
