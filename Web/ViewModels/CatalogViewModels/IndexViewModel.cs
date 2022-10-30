@@ -1,4 +1,6 @@
-﻿namespace Web.ViewModels.CatalogViewModels
+﻿using ApplicationCore.DTOs;
+
+namespace Web.ViewModels.CatalogViewModels
 {
     public class IndexViewModel
     {
