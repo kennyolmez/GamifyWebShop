@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.DTOs;
+using Web.ViewModels.Pagination;
 
 namespace Web.ViewModels.CatalogViewModels
 {

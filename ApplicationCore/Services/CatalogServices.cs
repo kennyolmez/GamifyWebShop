@@ -1,11 +1,15 @@
 ﻿using ApplicationCore.DTOs;
+using ApplicationCore.Extensions;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace ApplicationCore.Services
 {
@@ -18,7 +22,7 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, int? brandSelected, bool filterApplied, int page)
+        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, int? brandSelected, bool filterApplied, int? page, int pageSize)
         {
             List<ProductDto> filterOutput = new List<ProductDto>();
 
@@ -54,11 +58,10 @@ namespace ApplicationCore.Services
             }
             else
             {
-                return await _context.Products.Include(p => p.Brand)
+                return await PaginationExtensions.Paginate(_context.Products.Include(p => p.Brand)
                     .Include(p => p.ProductType)
                     .ThenInclude(p => p.Category)
-                    .Select(x => new ProductDto(x))
-                    .Skip(page).Take(2)
+                    .Select(x => new ProductDto(x)), page ?? 0, pageSize)
                     .ToListAsync();
             }        
         }

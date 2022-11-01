@@ -59,7 +59,7 @@
 }
 </div>
     <label class="catalog-label" data-title="page">
-    <input asp-for="@Model.Page" type="hidden" value="1">
+    <input asp-for="@Model.Page" type="hidden" value="@(Model.Page + 1)" />
     <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
     </label>
 </form>
