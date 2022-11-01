@@ -18,17 +18,29 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task<IEnumerable<ProductDto>> GetAllProducts(int? productTypeSelected)
+        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, bool filterApplied)
         {
-            var products = await _context.Products
+            // Because I want to render all the products on the home page if no filters are applied.
+            if(filterApplied)
+            {
+                var products = await _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.ProductType)
                 .Where(x => x.ProductTypeId == productTypeSelected)
                 .ToListAsync();
 
-            var output = products.Select(x => new ProductDto(x)).ToList();
+                var output = products.Select(x => new ProductDto(x)).ToList();
 
-            return output;
+                return output;
+            }
+            else
+            {
+                return await _context.Products.Include(p => p.Brand)
+                    .Include(p => p.ProductType)
+                    .Select(x => new ProductDto(x))
+                    .ToListAsync();
+            }
+            
         }
 
         public async Task<IEnumerable<ProductTypeDto>> GetAllProductTypes()

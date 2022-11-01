@@ -19,7 +19,7 @@ namespace Web.Controllers
             _services = services;
         }
 
-        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected)
+        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, bool filterApplied)
         {
             IndexViewModel viewModel = new IndexViewModel
             {
@@ -27,7 +27,7 @@ namespace Web.Controllers
                 BrandSelected = brandSelected ?? 0,
                 CategorySelected = categorySelected ?? 0,
                 ProductTypeSelected = productTypeSelected ?? 0,
-                Products = await _services.GetAllProducts(productTypeSelected),
+                Products = await _services.GetProducts(productTypeSelected, filterApplied),
                 ProductType = await _services.GetAllProductTypes()
             };
 

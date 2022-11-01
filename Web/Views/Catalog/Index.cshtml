@@ -19,19 +19,23 @@
 <form asp-action="Index" asp-controller="Catalog" method="post">
     <label class="esh-catalog-label" data-title="brand">
         <select asp-for="@Model.ProductTypeSelected" asp-items="items" class="esh-catalog-filter"></select>
+        <input asp-for="@Model.FilterApplied" type="hidden" value="true" />
     </label>
      <button type="submit" class="btn btn-info" id="searchbutton">Search</button>
 </form>
 
 
-@foreach(var p in Model.Products)
-{
-    <ul>
-        <li>@p.Name</li>
-        <li>@p.ProductType.Name</li>
-        <li>@p.Brand.Name</li>
-    </ul>
-}
+
+ @foreach (var p in Model.Products)
+    {
+        <ul>
+            <li>@p.Name</li>
+            <li>@p.ProductType.Name</li>
+            <li>@p.Brand.Name</li>
+        </ul>
+    }
+
+
 
 
 @*Category filter*@
