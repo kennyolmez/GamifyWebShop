@@ -14,6 +14,7 @@ namespace Web.ViewModels.CatalogViewModels
         public int? BrandSelected { get; set; }
         public int? CategorySelected { get; set; }
         public int? ProductTypeSelected { get; set; }
+        public int? Page { get; set; }
 
     }
 }

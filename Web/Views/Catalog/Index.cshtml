@@ -6,44 +6,64 @@
 
 @model IndexViewModel
 
-@{
-    List<SelectListItem> items = new List<SelectListItem>();
+<div class="wrapper">
+    <div class="dropdown-menu">
+        @foreach (var category in Model.Category)
+        {
+            <div class="dropdown">
+                <button class="dropbtn">@category.Name</button>
+                <div class="dropdown-content">
+                    <h3>Product Types</h3>
+                    @foreach (var item in Model.ProductType)
+                    {
+                        @if (item.Category.Name == category.Name)
+                        {
+                            <form asp-action="Index" asp-controller="Catalog" method="post">
+                                <label class="catalog-label" data-title="productType">
+                                    <input asp-for="@Model.FilterApplied" type="hidden" value="true" />
+                                    <input asp-for="@Model.ProductTypeSelected" type="hidden" value="@item.Id">
+                                    <input type="submit" class="astextsubmit" value="@item.Name">
+                                </label>
+                            </form>
+                        }
+                    }
+                    <h3>Brands</h3>
+                    @foreach (var item in Model.Brand)
+                    {
+                        @*Have to make changes to the relationships here so that it only shows the relevant brand*@
+                        <form asp-action="Index" asp-controller="Catalog" method="post">
+                            <label class="catalog-label" data-title="brand">
+                                <input asp-for="@Model.FilterApplied" type="hidden" value="true" />
+                                <input asp-for="@Model.BrandSelected" type="hidden" value="@item.Id">
+                                <input type="submit" class="astextsubmit" value="@item.Name">
+                            </label>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 
-    foreach(var item in Model.ProductType)
-    {
-        items.Add(new SelectListItem() {Value = item.Id.ToString(), Text = item.Name.ToString(), Selected = true});
-    }
+
+
+
+<form asp-action="Index" asp-controller="Catalog" method="post"> 
+<div class="product-display">
+    @foreach (var p in Model.Products)
+{
+    <ul>
+        <li>@p.Name</li>
+    </ul>
 }
-
-<form asp-action="Index" asp-controller="Catalog" method="post">
-    <label class="esh-catalog-label" data-title="brand">
-        <select asp-for="@Model.ProductTypeSelected" asp-items="items" class="esh-catalog-filter"></select>
-        <input asp-for="@Model.FilterApplied" type="hidden" value="true" />
+</div>
+    <label class="catalog-label" data-title="page">
+    <input asp-for="@Model.Page" type="hidden" value="1">
+    <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
     </label>
-     <button type="submit" class="btn btn-info" id="searchbutton">Search</button>
 </form>
 
 
 
- @foreach (var p in Model.Products)
-    {
-        <ul>
-            <li>@p.Name</li>
-            <li>@p.ProductType.Name</li>
-            <li>@p.Brand.Name</li>
-        </ul>
-    }
 
-
-
-
-@*Category filter*@
-
-@*Render *@
-
-@*Render all products with pagination*@
-
-@*Render all products with pagination*@
-
-@*Render all products with pagination*@

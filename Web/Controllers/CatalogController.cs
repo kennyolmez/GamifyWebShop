@@ -19,20 +19,23 @@ namespace Web.Controllers
             _services = services;
         }
 
-        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, bool filterApplied)
+        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, int page, bool filterApplied)
         {
             IndexViewModel viewModel = new IndexViewModel
             {
-                // If whatever is to the left is null, use what's to the right.
+                // If whatever is to the left is null, use what's to the rig§ht.
                 BrandSelected = brandSelected ?? 0,
                 CategorySelected = categorySelected ?? 0,
                 ProductTypeSelected = productTypeSelected ?? 0,
-                Products = await _services.GetProducts(productTypeSelected, filterApplied),
-                ProductType = await _services.GetAllProductTypes()
+                Products = await _services.GetProducts(productTypeSelected, brandSelected, filterApplied, page),
+                ProductType = await _services.GetAllProductTypes(),
+                Brand = await _services.GetAllBrands(),
+                Category = await _services.GetAllCategories(),
             };
 
             return View(viewModel);
         }
+
 
         public IActionResult Privacy() => View();
 

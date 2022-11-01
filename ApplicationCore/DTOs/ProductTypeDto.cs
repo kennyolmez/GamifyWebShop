@@ -15,6 +15,7 @@ namespace ApplicationCore.DTOs
             Id = productType.Id;
             Name = productType.Name;
             CategoryId = productType.CategoryId;
+            Category = new CategoryDto(productType.Category);
         }
 
         public int Id { get; set; }
