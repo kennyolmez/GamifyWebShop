@@ -66,6 +66,17 @@ namespace ApplicationCore.Services
             }        
         }
 
+        // Unfiltered query to get all products.
+        public async Task<IEnumerable<ProductDto>> GetAllProducts()
+        {
+                return await _context.Products.Include(p => p.Brand)
+                    .Include(p => p.ProductType)
+                    .ThenInclude(p => p.Category)
+                    .Select(x => new ProductDto(x))
+                    .ToListAsync();
+        }
+
+
         public async Task<IEnumerable<ProductTypeDto>> GetAllProductTypes()
         {
             var productTypes = await _context.ProductTypes

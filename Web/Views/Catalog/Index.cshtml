@@ -58,18 +58,25 @@
     </ul>
 }
 </div>
-<form asp-action="Index" asp-controller="Catalog" method="post">
+@if(Model.PaginationHelper.NextIsEnabled == true)
+{
+    <form asp-action="Index" asp-controller="Catalog" method="post">
         <label class="catalog-label" data-title="page">
-        <input asp-for="@Model.Page" type="hidden" value="@(Model.Page + 1)" />
-        <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
-    </label>
-</form>
-<form asp-action="Index" asp-controller="Catalog" method="post">
-    <label class="catalog-label" data-title="page">
-        <input asp-for="@Model.Page" type="hidden" value="@(Model.Page - 1)" />
-        <button type="submit" class="btn btn-info" id="searchbutton">Previous Page</button>
-    </label>
-</form>
+            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page + 1)" />
+            <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
+        </label>
+    </form>
+}
+@if(Model.PaginationHelper.PreviousIsEnabled == true)
+{
+    <form asp-action="Index" asp-controller="Catalog" method="post">
+        <label class="catalog-label" data-title="page">
+            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page - 1)" />
+            <button type="submit" class="btn btn-info" id="searchbutton">Previous Page</button>
+        </label>
+    </form>
+
+}
 
 
 

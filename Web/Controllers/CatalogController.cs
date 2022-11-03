@@ -24,7 +24,7 @@ namespace Web.Controllers
         public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, int? page, bool filterApplied)
         {
             int pageSize = 2; // Page size, temporary.
-            
+            int totalProductCount = (await _services.GetAllProducts()).Count();
 
             IndexViewModel viewModel = new IndexViewModel
             {
@@ -36,8 +36,16 @@ namespace Web.Controllers
                 ProductType = await _services.GetAllProductTypes(),
                 Brand = await _services.GetAllBrands(),
                 Category = await _services.GetAllCategories(),
-                Page = page ?? 1,
+                PaginationHelper = new PaginationHelper()
+                {
+                    Page = page ?? 1,
+                    ProductCount = totalProductCount,
+                    PageCount = (int)Math.Ceiling(((decimal)totalProductCount / pageSize)),
+                }
             };
+
+            viewModel.PaginationHelper.NextIsEnabled = ((page ?? 1) < viewModel.PaginationHelper.PageCount) ? true : false; // if the co
+            viewModel.PaginationHelper.PreviousIsEnabled = (page > 1) ? true : false;
 
             return View(viewModel);
         }

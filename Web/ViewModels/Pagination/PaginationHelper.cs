@@ -4,10 +4,11 @@ namespace Web.ViewModels.Pagination
 {
     public class PaginationHelper
     {
-        public int? StartIndex { get; set; }
-        public int? NumberOfProducts { get; set; }
-        public int? NumberOfPages { get; set; }
-        public int? MaxIndex { get; set; }
+        public int? Page { get; set; }
+        public int? PageCount { get; set; }
+        public int? ProductCount { get; set; }
+        public bool NextIsEnabled { get; set; }
+        public bool PreviousIsEnabled { get; set; }
 
     }
 }
