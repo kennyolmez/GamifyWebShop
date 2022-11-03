@@ -36,8 +36,7 @@ namespace Web.Controllers
                 ProductType = await _services.GetAllProductTypes(),
                 Brand = await _services.GetAllBrands(),
                 Category = await _services.GetAllCategories(),
-                Page = page ?? 0,
-                // We get the page from the view. But we need to persist the page. 
+                Page = page ?? 1,
             };
 
             return View(viewModel);
