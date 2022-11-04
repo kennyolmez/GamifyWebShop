@@ -20,9 +20,9 @@ namespace Web.Controllers
             _services = services;
         }
 
-        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, int? page, bool filterApplied)
+        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, int? page)
         {
-            int pageSize = 2; // Page size, temporary. Not sure where to put this.
+            int pageSize = 3; // Page size, temporary. Not sure where to put this.
             int totalProductCount = (await _services.GetAllProducts()).Count();
 
             IndexViewModel viewModel = new IndexViewModel
@@ -31,7 +31,7 @@ namespace Web.Controllers
                 BrandSelected = brandSelected ?? 0,
                 CategorySelected = categorySelected ?? 0,
                 ProductTypeSelected = productTypeSelected ?? 0,
-                Products = await _services.GetProducts(productTypeSelected, brandSelected, filterApplied, page ?? 1, pageSize),
+                Products = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, pageSize),
                 ProductType = await _services.GetAllProductTypes(),
                 Brand = await _services.GetAllBrands(),
                 Category = await _services.GetAllCategories(),
@@ -48,6 +48,7 @@ namespace Web.Controllers
 
             return View(viewModel);
         }
+
 
         public IActionResult Privacy() => View();
 

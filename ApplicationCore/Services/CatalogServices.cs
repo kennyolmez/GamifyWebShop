@@ -22,58 +22,61 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, int? brandSelected, bool filterApplied, int? page, int pageSize)
+        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, int? brandSelected, int? page, int pageSize)
         {
-            List<ProductDto> filterOutput = new List<ProductDto>();
+            List<ProductDto> outputQuery = new List<ProductDto>();
 
             // Because I want to render all the products on the home page if no filters are applied.
-            if(filterApplied)
+
+            if (productTypeSelected.HasValue)
             {
-                if(productTypeSelected.HasValue)
-                {
-                     var productTypeFilter = await _context.Products
-                    .Include(p => p.Brand)
-                    .Include(p => p.ProductType)
-                    .ThenInclude(p => p.Category)
-                    .Where(x => x.ProductTypeId == productTypeSelected)
-                    .ToListAsync();
+                var productTypeFilterQuery = await _context.Products
+               .Include(p => p.Brand)
+               .Include(p => p.ProductType)
+               .ThenInclude(p => p.Category)
+               .Where(x => x.ProductTypeId == productTypeSelected)
+               .Paginate(page ?? 0, pageSize)
+               .ToListAsync();
 
-                    // Entity > DTO conversion
-                    filterOutput = productTypeFilter.Select(x => new ProductDto(x)).ToList();
-                }
-                else if(brandSelected.HasValue)
-                {
-                    var brandFilter = await _context.Products
-                    .Include(p => p.Brand)
-                    .Include(p => p.ProductType)
-                    .ThenInclude(p => p.Category)
-                    .Where(x => x.BrandId == brandSelected)
-                    .ToListAsync();
-
-                    // Entity > DTO conversion
-                    filterOutput = brandFilter.Select(x => new ProductDto(x)).ToList();
-                }
-
-                return filterOutput;
+                outputQuery = productTypeFilterQuery.Select(x => new ProductDto(x)).ToList();
             }
+            else if (brandSelected.HasValue)
+            {
+                var brandFilterQuery = await _context.Products // DbSet<Product>
+                .Include(p => p.Brand) // IQueryable
+                .Include(p => p.ProductType) // IQueryable
+                .ThenInclude(p => p.Category) // IQueryable
+                .Where(x => x.BrandId == brandSelected) // IQueryable
+                .Paginate(page ?? 0, pageSize) // IQueryable
+                .ToListAsync(); // async Task<List<T>>
+
+                // Entity > DTO conversion
+                outputQuery = brandFilterQuery.Select(x => new ProductDto(x)).ToList();
+            }
+
+
             else
             {
-                return await PaginationExtensions.Paginate(_context.Products.Include(p => p.Brand)
-                    .Include(p => p.ProductType)
-                    .ThenInclude(p => p.Category)
-                    .Select(x => new ProductDto(x)), page ?? 0, pageSize)
-                    .ToListAsync();
-            }        
+                outputQuery = await _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.ProductType)
+                .ThenInclude(p => p.Category)
+                .Select(x => new ProductDto(x))
+                .Paginate(page ?? 0, pageSize)
+                .ToListAsync();
+            }
+
+            return outputQuery;
         }
 
         // Unfiltered query to get all products.
         public async Task<IEnumerable<ProductDto>> GetAllProducts()
         {
-                return await _context.Products.Include(p => p.Brand)
-                    .Include(p => p.ProductType)
-                    .ThenInclude(p => p.Category)
-                    .Select(x => new ProductDto(x))
-                    .ToListAsync();
+            return await _context.Products.Include(p => p.Brand)
+                .Include(p => p.ProductType)
+                .ThenInclude(p => p.Category)
+                .Select(x => new ProductDto(x))
+                .ToListAsync();
         }
 
 

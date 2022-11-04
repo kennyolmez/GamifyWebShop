@@ -20,7 +20,6 @@
                         {
                             <form asp-action="Index" asp-controller="Catalog" method="post">
                                 <label class="catalog-label" data-title="productType">
-                                    <input asp-for="@Model.FilterApplied" type="hidden" value="true" />
                                     <input asp-for="@Model.ProductTypeSelected" type="hidden" value="@item.Id">
                                     <input type="submit" class="astextsubmit" value="@item.Name">
                                 </label>
@@ -33,7 +32,6 @@
                         @*Have to make changes to the relationships here so that it only shows the relevant brand*@
                         <form asp-action="Index" asp-controller="Catalog" method="post">
                             <label class="catalog-label" data-title="brand">
-                                <input asp-for="@Model.FilterApplied" type="hidden" value="true" />
                                 <input asp-for="@Model.BrandSelected" type="hidden" value="@item.Id">
                                 <input type="submit" class="astextsubmit" value="@item.Name">
                             </label>
@@ -46,19 +44,24 @@
 </div>
 
 
-
+<form asp-action="IndexId" asp-controller="Catalog" method="post">
+    <label class="catalog-label" data-title="brand">
+        <input asp-for="@Model.Id" type="hidden" name="id" value="1">
+        <input type="submit" class="astextsubmit" value="1">
+    </label>
+</form>
 
 
 
 <div class="product-display">
     @foreach (var p in Model.Products)
-{
-    <ul>
-        <li>@p.Name</li>
-    </ul>
-}
+    {
+        <ul>
+            <li>@p.Name</li>
+        </ul>
+    }
 </div>
-@if(Model.PaginationHelper.NextIsEnabled == true)
+@if (Model.PaginationHelper.NextIsEnabled == true)
 {
     <form asp-action="Index" asp-controller="Catalog" method="post">
         <label class="catalog-label" data-title="page">
@@ -67,7 +70,7 @@
         </label>
     </form>
 }
-@if(Model.PaginationHelper.PreviousIsEnabled == true)
+@if (Model.PaginationHelper.PreviousIsEnabled == true)
 {
     <form asp-action="Index" asp-controller="Catalog" method="post">
         <label class="catalog-label" data-title="page">

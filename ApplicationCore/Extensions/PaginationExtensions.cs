@@ -8,7 +8,8 @@ namespace ApplicationCore.Extensions
 {
     public static class PaginationExtensions
     {
-        // IQueryable instead of IEnumerable here because we're querying out of memory data (_context.Products)
+        // IQueryable instead of IEnumerable here because we're querying out of memory data (_context.Products). This means we dont want to materialize 
+        // the query until all the expressions of the chain method are read
         public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int page, int perPage)
         {
             if (page < 1)
