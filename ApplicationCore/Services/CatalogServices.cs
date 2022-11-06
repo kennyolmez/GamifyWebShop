@@ -28,7 +28,7 @@ namespace ApplicationCore.Services
 
             // Because I want to render all the products on the home page if no filters are applied.
 
-            if (productTypeSelected.HasValue)
+            if (productTypeSelected.HasValue && productTypeSelected > 0) // Bad solution because we shouldn't be getting 0.
             {
                 var productTypeFilterQuery = await _context.Products
                .Include(p => p.Brand)
@@ -40,7 +40,7 @@ namespace ApplicationCore.Services
 
                 outputQuery = productTypeFilterQuery.Select(x => new ProductDto(x)).ToList();
             }
-            else if (brandSelected.HasValue)
+            else if (brandSelected.HasValue && brandSelected > 0) // Bad solution because we shouldn't be getting 0.
             {
                 var brandFilterQuery = await _context.Products // DbSet<Product>
                 .Include(p => p.Brand) // IQueryable

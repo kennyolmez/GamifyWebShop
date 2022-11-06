@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Services;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using Web.Models;
@@ -20,17 +21,17 @@ namespace Web.Controllers
             _services = services;
         }
 
-        public async Task<IActionResult> Index(int? brandSelected, int? categorySelected, int? productTypeSelected, int? page)
+        [HttpGet]
+        [Route("")]
+        //[Route("Catalog/Index/{categorySelected:int}/{productTypeSelected:int}")] -- this does not work yet
+        [Route("Catalog/Index/{brandSelected:int}")] // Brand belongs to nothing, we only want brand for the visual display of brands available in any given category
+        public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? page)
         {
             int pageSize = 3; // Page size, temporary. Not sure where to put this.
             int totalProductCount = (await _services.GetAllProducts()).Count();
 
             IndexViewModel viewModel = new IndexViewModel
             {
-                // If whatever is to the left is null, use what's to the right.
-                BrandSelected = brandSelected ?? 0,
-                CategorySelected = categorySelected ?? 0,
-                ProductTypeSelected = productTypeSelected ?? 0,
                 Products = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, pageSize),
                 ProductType = await _services.GetAllProductTypes(),
                 Brand = await _services.GetAllBrands(),
@@ -49,6 +50,17 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(IndexViewModel vm, int? page)
+        {
+            // This is where we do validation
+
+            return RedirectToAction("Index",
+                new { categorySelected = vm.CategorySelected, 
+                    productTypeSelected = vm.ProductTypeSelected, 
+                    brandSelected = vm.BrandSelected, 
+                    page = page });
+        }
 
         public IActionResult Privacy() => View();
 

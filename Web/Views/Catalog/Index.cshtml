@@ -20,6 +20,7 @@
                         {
                             <form asp-action="Index" asp-controller="Catalog" method="post">
                                 <label class="catalog-label" data-title="productType">
+                                    <input asp-for="@Model.CategorySelected" type="hidden" value="@category.Id">
                                     <input asp-for="@Model.ProductTypeSelected" type="hidden" value="@item.Id">
                                     <input type="submit" class="astextsubmit" value="@item.Name">
                                 </label>
@@ -44,15 +45,6 @@
 </div>
 
 
-<form asp-action="IndexId" asp-controller="Catalog" method="post">
-    <label class="catalog-label" data-title="brand">
-        <input asp-for="@Model.Id" type="hidden" name="id" value="1">
-        <input type="submit" class="astextsubmit" value="1">
-    </label>
-</form>
-
-
-
 <div class="product-display">
     @foreach (var p in Model.Products)
     {
@@ -61,6 +53,8 @@
         </ul>
     }
 </div>
+
+
 @if (Model.PaginationHelper.NextIsEnabled == true)
 {
     <form asp-action="Index" asp-controller="Catalog" method="post">
