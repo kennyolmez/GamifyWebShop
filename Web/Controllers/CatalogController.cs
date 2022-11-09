@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Services;
+using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,21 +24,22 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? productId, int? page)
         {
-            int pageSize = 3; // Page size, temporary. Not sure where to put this.
-            int totalProductCount = (await _services.GetAllProducts()).Count();
+            int productCount = await _services.GetProductCount(productTypeSelected, brandSelected);
+            var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, PagingUtilities.PageSize);
 
             IndexViewModel viewModel = new IndexViewModel
             {
                 Product = await _services.GetProductById(productId),
-                Products = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, pageSize),
+                Products = filteredProducts,
                 ProductType = await _services.GetAllProductTypes(),
                 Brand = await _services.GetAllBrands(),
                 Category = await _services.GetAllCategories(),
-                PaginationHelper = new PaginationHelper()
+                PaginationHelper = new PaginationHelper
                 {
                     Page = page ?? 1,
-                    ProductCount = totalProductCount,
-                    PageCount = (int)Math.Ceiling(((decimal)totalProductCount / pageSize)),
+                    ProductsOnPage = filteredProducts.Count(), // For view
+                    ProductCount = productCount, // For view
+                    PageCount = (int)Math.Ceiling(((decimal)productCount / PagingUtilities.PageSize))
                 }
             };
 

@@ -69,21 +69,11 @@ namespace ApplicationCore.Services
             return outputQuery;
         }
 
-        // Unfiltered query to get all products.
-        public async Task<IEnumerable<ProductDto>> GetAllProducts()
-        {
-            return await _context.Products.Include(p => p.Brand)
-                .Include(p => p.ProductType)
-                .ThenInclude(p => p.Category)
-                .Select(x => new ProductDto(x))
-                .ToListAsync();
-        }
-
-
         public async Task<ProductDto?> GetProductById(int? id)
         {
             return await _context.Products.Include(p => p.Brand)
                 .Include(p => p.ProductType)
+                .ThenInclude(p => p.Category)
                 .Where(x => x.Id == id)
                 .Select(x => new ProductDto(x))
                 .FirstOrDefaultAsync();
@@ -119,6 +109,23 @@ namespace ApplicationCore.Services
             var output = productTypes.Select(x => new CategoryDto(x)).ToList();
 
             return output;
+        }
+        // Refactor?
+        // To get product count without pagination for display purposes
+        public async Task<int> GetProductCount(int? productTypeSelected, int? brandSelected)
+        {
+            if(productTypeSelected.HasValue)
+            {
+                return await _context.Products.Where(x => x.ProductTypeId == productTypeSelected).CountAsync();
+            }
+            else if(brandSelected.HasValue)
+            {
+                return await _context.Products.Where(x => x.BrandId == productTypeSelected).CountAsync();
+            }
+            else
+            {
+                return await _context.Products.CountAsync();
+            }
         }
     }
 }

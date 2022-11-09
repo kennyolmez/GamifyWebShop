@@ -3,6 +3,8 @@
 
 @model IndexViewModel
 
+<p>Showing @Model.PaginationHelper.ProductsOnPage of @Model.PaginationHelper.ProductCount - Page @Model.PaginationHelper.Page of @Model.PaginationHelper.PageCount</p>
+
 @foreach(var product in Model.Products)
 {
     <form asp-action="Index" asp-controller="Catalog" method="post">
