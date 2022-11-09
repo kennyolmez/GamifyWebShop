@@ -80,6 +80,16 @@ namespace ApplicationCore.Services
         }
 
 
+        public async Task<ProductDto?> GetProductById(int? id)
+        {
+            return await _context.Products.Include(p => p.Brand)
+                .Include(p => p.ProductType)
+                .Where(x => x.Id == id)
+                .Select(x => new ProductDto(x))
+                .FirstOrDefaultAsync();
+        }
+
+
         public async Task<IEnumerable<ProductTypeDto>> GetAllProductTypes()
         {
             var productTypes = await _context.ProductTypes

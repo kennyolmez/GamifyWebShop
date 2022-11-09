@@ -10,9 +10,9 @@ namespace Web.ViewModels.CatalogViewModels
         public IEnumerable<CategoryDto> Category { get; set; }
         public IEnumerable<ProductTypeDto> ProductType { get; set; }
 
-        public int? Id { get; set; }
-
         // Null values allowed because no filters may be applied
+        public ProductDto Product { get; set; }
+        public int ProductId { get; set; }
         public int? BrandSelected { get; set; }
         public int? CategorySelected { get; set; }
         public int? ProductTypeSelected { get; set; }

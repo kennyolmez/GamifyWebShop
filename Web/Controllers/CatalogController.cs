@@ -20,18 +20,15 @@ namespace Web.Controllers
             _logger = logger;
             _services = services;
         }
-
         [HttpGet]
-        [Route("")]
-        //[Route("Catalog/Index/{categorySelected:int}/{productTypeSelected:int}")] -- this does not work yet
-        [Route("Catalog/Index/{brandSelected:int}")] // Brand belongs to nothing, we only want brand for the visual display of brands available in any given category
-        public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? page)
+        public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? productId, int? page)
         {
             int pageSize = 3; // Page size, temporary. Not sure where to put this.
             int totalProductCount = (await _services.GetAllProducts()).Count();
 
             IndexViewModel viewModel = new IndexViewModel
             {
+                Product = await _services.GetProductById(productId),
                 Products = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, pageSize),
                 ProductType = await _services.GetAllProductTypes(),
                 Brand = await _services.GetAllBrands(),
@@ -59,7 +56,9 @@ namespace Web.Controllers
                 new { categorySelected = vm.CategorySelected, 
                     productTypeSelected = vm.ProductTypeSelected, 
                     brandSelected = vm.BrandSelected, 
-                    page = page });
+                    productId = vm.ProductId,
+                    page = page,
+                });
         }
 
         public IActionResult Privacy() => View();

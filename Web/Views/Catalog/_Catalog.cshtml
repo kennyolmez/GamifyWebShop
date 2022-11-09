@@ -1,0 +1,35 @@
+﻿@using Web.ViewModels.CatalogViewModels
+
+
+@model IndexViewModel
+
+@foreach(var product in Model.Products)
+{
+    <form asp-action="Index" asp-controller="Catalog" method="post">
+        <label class="catalog-label" data-title="brand">
+            <input asp-for="@Model.ProductId" type="hidden" value="@product.Id">
+            <input type="submit" class="astextsubmit" value="@product.Name">
+        </label>
+    </form>
+
+}
+
+
+@if (Model.PaginationHelper.NextIsEnabled)
+{
+    <form asp-action="Index" asp-controller="Catalog" method="post">
+        <label class="catalog-label" data-title="page">
+            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page + 1)" />
+            <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
+        </label>
+    </form>
+}
+@if (Model.PaginationHelper.PreviousIsEnabled)
+{
+    <form asp-action="Index" asp-controller="Catalog" method="post">
+        <label class="catalog-label" data-title="page">
+            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page - 1)" />
+            <button type="submit" class="btn btn-info" id="searchbutton">Previous Page</button>
+        </label>
+    </form>
+}

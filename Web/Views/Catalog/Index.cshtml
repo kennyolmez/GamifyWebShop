@@ -1,4 +1,5 @@
 ﻿@using System.Text.Json
+@using Web.ViewModels
 @using Web.ViewModels.CatalogViewModels
 @{
     ViewData["Title"] = "Home Page";
@@ -45,35 +46,19 @@
 </div>
 
 
-<div class="product-display">
-    @foreach (var p in Model.Products)
-    {
-        <ul>
-            <li>@p.Name</li>
-        </ul>
-    }
-</div>
 
-
-@if (Model.PaginationHelper.NextIsEnabled == true)
+@if(Model.Product == null)
 {
-    <form asp-action="Index" asp-controller="Catalog" method="post">
-        <label class="catalog-label" data-title="page">
-            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page + 1)" />
-            <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
-        </label>
-    </form>
+    <div class="catalog-display">
+            <partial name="_Catalog" for="@Model"/>
+    </div>
 }
-@if (Model.PaginationHelper.PreviousIsEnabled == true)
+else
 {
-    <form asp-action="Index" asp-controller="Catalog" method="post">
-        <label class="catalog-label" data-title="page">
-            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page - 1)" />
-            <button type="submit" class="btn btn-info" id="searchbutton">Previous Page</button>
-        </label>
-    </form>
-
+    <partial name="_Product" for="@Model"/>
 }
+
+
 
 
 
