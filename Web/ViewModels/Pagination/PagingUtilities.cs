@@ -2,6 +2,6 @@
 {
     public static class PagingUtilities
     {
-        public const int PageSize = 5;
+        public const int PageSize = 3;
     }
 }

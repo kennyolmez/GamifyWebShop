@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the dependency injection container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CatalogServices>();
+builder.Services.AddScoped<CartServices>();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

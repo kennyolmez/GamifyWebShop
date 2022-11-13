@@ -10,6 +10,7 @@
     <form asp-action="Index" asp-controller="Catalog" method="post">
         <label class="catalog-label" data-title="brand">
             <input asp-for="@Model.ProductId" type="hidden" value="@product.Id">
+            <img src="@product.PictureUrl" height="113" width="113" border="0" />
             <input type="submit" class="astextsubmit" value="@product.Name">
         </label>
     </form>

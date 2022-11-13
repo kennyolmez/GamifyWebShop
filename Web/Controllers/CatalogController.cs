@@ -21,7 +21,7 @@ namespace Web.Controllers
             _logger = logger;
             _services = services;
         }
-        [HttpGet]
+
         public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? productId, int? page)
         {
             int productCount = await _services.GetProductCount(productTypeSelected, brandSelected);
