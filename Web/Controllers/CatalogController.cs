@@ -1,10 +1,12 @@
 ﻿using ApplicationCore.Services;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 using Web.Models;
 using Web.ViewModels.CatalogViewModels;
 using Web.ViewModels.Pagination;
@@ -22,8 +24,11 @@ namespace Web.Controllers
             _services = services;
         }
 
+
         public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? productId, int? page)
         {
+            var sessionId = HttpContext.Session.Id;
+
             int productCount = await _services.GetProductCount(productTypeSelected, brandSelected);
             var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, PagingUtilities.PageSize);
 

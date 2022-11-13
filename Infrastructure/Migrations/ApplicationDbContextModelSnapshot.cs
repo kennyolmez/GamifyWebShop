@@ -88,6 +88,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ShoppingCartId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
@@ -96,6 +99,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("ProductTypeId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Products");
                 });
@@ -121,6 +126,27 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ProductTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("BuyerId")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -339,6 +365,10 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.ShoppingCart", null)
+                        .WithMany("Products")
+                        .HasForeignKey("ShoppingCartId");
+
                     b.Navigation("Brand");
 
                     b.Navigation("ProductType");
@@ -417,6 +447,11 @@ namespace Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductType", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ShoppingCart", b =>
                 {
                     b.Navigation("Products");
                 });
