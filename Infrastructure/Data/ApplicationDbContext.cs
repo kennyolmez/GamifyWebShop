@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Infrastructure.Data
     // Create application user
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -28,9 +30,6 @@ namespace Infrastructure.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfigurationsFromAssembly(typeof(Brand).Assembly);
-            builder.ApplyConfigurationsFromAssembly(typeof(Category).Assembly);
-            builder.ApplyConfigurationsFromAssembly(typeof(Product).Assembly);
-            builder.ApplyConfigurationsFromAssembly(typeof(ProductType).Assembly);
         }
     }
 }
