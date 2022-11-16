@@ -13,3 +13,11 @@
         <p>@Model.Product.Brand.Name</p>
     </li>
 </ul>
+
+
+<form asp-action="AddToCart" asp-controller="Cart" method="post">
+    <label class="catalog-label" data-title="brand">
+        <input asp-for="@Model.ProductId" type="hidden" name="productId" value="@Model.Product.Id">
+        <input type="submit" class="astextsubmit" value="Add To Cart">
+    </label>
+</form>

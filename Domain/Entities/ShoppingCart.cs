@@ -11,10 +11,16 @@ namespace Domain.Entities
         public ShoppingCart(string buyerId)
         {
             BuyerId = buyerId;
+            DateOfCreation = DateTime.Now;
         }
         public int Id { get; set; }
         public string BuyerId { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
+        public ICollection<Product> Products { get; set; }
         public DateTime DateOfCreation { get; set; }
+
+        // Add AddCartItem and CartItemQuantity methods here and flesh out CartItems and make them separate from catalogitems
+
+
     }
 }
+

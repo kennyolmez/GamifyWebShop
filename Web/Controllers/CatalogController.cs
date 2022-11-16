@@ -27,8 +27,6 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? productId, int? page)
         {
-            var sessionId = HttpContext.Session.Id;
-
             int productCount = await _services.GetProductCount(productTypeSelected, brandSelected);
             var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, PagingUtilities.PageSize);
 
