@@ -7,11 +7,9 @@ namespace Web.Middleware
     public class GuestCookieMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IHttpContextAccessor _context;
-        public GuestCookieMiddleware(RequestDelegate next, IHttpContextAccessor context)
+        public GuestCookieMiddleware(RequestDelegate next)
         {
             _next = next;
-            _context = context;
         }
 
         public async Task InvokeAsync(HttpContext context)
