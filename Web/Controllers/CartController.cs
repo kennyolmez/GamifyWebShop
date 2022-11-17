@@ -20,8 +20,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string? userId = GetUserOrCreateCookie();
-
+            var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["first_request"];
 
             IndexViewModel vm = new IndexViewModel
             {
@@ -34,45 +33,13 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId)
         {
-            var userId = GetUserOrCreateCookie();
+            var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["first_request"];
 
             var cart = await _cartServices.GetOrCreateCart(userId);
 
             await _cartServices.AddToCart(userId, productId, cart.Id);
 
             return RedirectToAction("Index", "Catalog");
-        }
-
-        // Should make a middleware of this to avoid bloating the controller
-        public string GetUserOrCreateCookie()
-        {
-            string? userName = null;
-
-            if (User.Identity.IsAuthenticated)
-            {
-                return User.FindFirstValue(ClaimTypes.NameIdentifier);
-            }
-
-            if (Request.Cookies.ContainsKey("first_request"))
-            {
-                userName = Request.Cookies["first_request"];
-
-                if (!Request.HttpContext.User.Identity.IsAuthenticated)
-                {
-                    if (!Guid.TryParse(userName, out var _))
-                    {
-                        userName = null;
-                    }
-                }
-            }
-
-            if (userName != null) return userName;
-
-            userName = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions { IsEssential = true };
-            Response.Cookies.Append("first_request", userName, cookieOptions);
-
-            return userName;
         }
     }
 }

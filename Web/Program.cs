@@ -2,7 +2,11 @@ using ApplicationCore.Services;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using System.Globalization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CatalogServices>();
 builder.Services.AddScoped<CartServices>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -94,5 +100,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Catalog}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// Middleware extension to assign cookie to user
+app.UseGuestCookie();
 
 app.Run();
