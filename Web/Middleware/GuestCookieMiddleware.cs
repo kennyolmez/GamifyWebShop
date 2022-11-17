@@ -31,7 +31,7 @@ namespace Web.Middleware
             if (userName == null)
             {
                 userName = Guid.NewGuid().ToString();
-                var cookieOptions = new CookieOptions { IsEssential = true };
+                var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(3) };
                 context.Response.Cookies.Append("first_request", userName, cookieOptions);
             }
 
