@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.EntityConfigurations
+namespace Infrastructure.EntityConfigurations
 {
     public class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {

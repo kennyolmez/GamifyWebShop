@@ -19,8 +19,6 @@ namespace Domain.Entities
         public DateTime DateOfCreation { get; set; }
 
         // Add AddCartItem and CartItemQuantity methods here and flesh out CartItems and make them separate from catalogitems
-
-
     }
 }
 

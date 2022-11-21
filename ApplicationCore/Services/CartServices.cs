@@ -52,7 +52,7 @@ namespace ApplicationCore.Services
         // Add quantity and price too parameters?
         public async Task AddToCart(string? userId, int productId, int cartId)
         {
-            var cart = await _context.ShoppingCarts.Include(x => x.Products).Where(x => x.Id == cartId).FirstOrDefaultAsync();
+            var cart = await _context.ShoppingCarts.Include(x => x.Products).Where(x => x.BuyerId == userId).FirstOrDefaultAsync();
 
             if(cart == null)
             {

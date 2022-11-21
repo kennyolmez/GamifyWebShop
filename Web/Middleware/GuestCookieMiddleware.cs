@@ -16,9 +16,11 @@ namespace Web.Middleware
         {
             string? userName = null;
 
-            if (context.Request.Cookies.ContainsKey("first_request"))
-            {
-                userName = context.Request.Cookies["first_request"];
+
+            if (context.Request.Cookies.ContainsKey("guest"))
+            { // If guest has a cookie
+
+                userName = context.Request.Cookies["guest"];
 
                 if (!context.User.Identity.IsAuthenticated)
                 {
@@ -27,12 +29,14 @@ namespace Web.Middleware
                         userName = null;
                     }
                 }
+
             }
+
             if (userName == null)
             {
                 userName = Guid.NewGuid().ToString();
                 var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(3) };
-                context.Response.Cookies.Append("first_request", userName, cookieOptions);
+                context.Response.Cookies.Append("guest", userName, cookieOptions);
             }
 
             // Call the next delegate/middleware in the pipeline.

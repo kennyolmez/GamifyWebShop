@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.EntityConfigurations
+namespace Infrastructure.EntityConfigurations
 {
     public class ShoppingCartConfiguration : IEntityTypeConfiguration<ShoppingCart>
     {
@@ -18,6 +18,8 @@ namespace Domain.EntityConfigurations
                 .IsRequired()
             .HasMaxLength(256);
 
+
+            builder.HasMany(b => b.Products).WithMany(b => b.ShoppingCarts);
         }
     }
 }
