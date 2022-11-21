@@ -19,6 +19,7 @@ namespace Infrastructure.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         // base accesses members of the base class (identitydbcontext)
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
