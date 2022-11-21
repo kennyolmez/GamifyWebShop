@@ -8,7 +8,7 @@
 @model IndexViewModel
 
 
-@if(Model.UserCart.Products != null)
+@if (Model.UserCart.Products is not null  && Model.UserCart.Products.Count() > 0)
 {
     @foreach (var item in Model.UserCart.Products)
     {
