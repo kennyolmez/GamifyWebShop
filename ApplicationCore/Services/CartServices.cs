@@ -21,7 +21,7 @@ namespace ApplicationCore.Services
             _context = context;
         }
 
-        public async Task<ShoppingCartDto> GetOrCreateCart(string userId)
+        public async Task<ShoppingCartDto> GetOrCreateCart(string? userId)
         {
             var cart = await _context.ShoppingCarts
                 .Include(x => x.Products).ThenInclude(x => x.Brand)
@@ -38,7 +38,7 @@ namespace ApplicationCore.Services
             return cart;
         }
 
-        public async Task<ShoppingCartDto> CreateCartForUser(string userId)
+        public async Task<ShoppingCartDto> CreateCartForUser(string? userId)
         {
             var cart = new ShoppingCart(userId);
 
@@ -50,7 +50,7 @@ namespace ApplicationCore.Services
         }
         
         // Add quantity and price too parameters?
-        public async Task AddToCart(string userId, int productId, int cartId)
+        public async Task AddToCart(string? userId, int productId, int cartId)
         {
             var cart = await _context.ShoppingCarts.Include(x => x.Products).Where(x => x.Id == cartId).FirstOrDefaultAsync();
 

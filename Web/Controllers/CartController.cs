@@ -20,7 +20,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["first_request"];
+            var userId = User.Identity?.IsAuthenticated ?? false ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["first_request"];
 
             IndexViewModel vm = new IndexViewModel
             {
@@ -33,7 +33,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId)
         {
-            var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["first_request"];
+            var userId = User.Identity?.IsAuthenticated ?? false ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["first_request"];
 
             var cart = await _cartServices.GetOrCreateCart(userId);
 
