@@ -1,0 +1,25 @@
+﻿@using Web.ViewModels
+@using Web.ViewModels.OrderViewModels
+
+
+@model CheckoutViewModel
+
+
+@if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
+{
+    @foreach (var item in Model.UserCart.CartItems)
+    {
+        <p>@item.ProductName</p>
+        <p>@item.ProductBrand</p>
+    }
+}
+else
+{
+    <p>There are no products in the shopping cart yet!</p>
+}
+
+
+
+<a asp-controller="Catalog"
+   asp-action="Index">Return to Home</a>
+

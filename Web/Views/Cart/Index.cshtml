@@ -8,14 +8,22 @@
 @model IndexViewModel
 
 
-@if (Model.UserCart.Products is not null  && Model.UserCart.Products.Count() > 0)
+@if (Model.UserCart.CartItems is not null  && Model.UserCart.CartItems.Count() > 0)
 {
-    @foreach (var item in Model.UserCart.Products)
+    @foreach (var item in Model.UserCart.CartItems)
     {
-        <p>@item.Name</p>
+        <p>Name: @item.ProductName Brand: @item.ProductBrand Quantity: @item.Quantity</p>
     }
 }
 else
 {
     <p>There are no products in the shopping cart yet!</p>
 }
+
+
+
+<a asp-controller="Catalog"
+   asp-action="Index">Return to Home</a>
+
+<a asp-controller="Order"
+   asp-action="CreateOrder">Go to Checkout</a>

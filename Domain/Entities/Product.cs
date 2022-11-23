@@ -24,7 +24,6 @@
         public Brand Brand { get; set; }
         public int ProductTypeId { get; set; } // Foreign key for clarity, better being more explicit than not 
         public ProductType ProductType { get; set; }
-        public ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
 
 }

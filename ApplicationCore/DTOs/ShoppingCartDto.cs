@@ -13,12 +13,12 @@ namespace ApplicationCore.DTOs
         {
             Id = cart.Id;
             BuyerId = cart.BuyerId;
-            Products = cart.Products?.Select(x => new ProductDto(x)).ToList();
+            CartItems = cart.CartProducts?.Select(x => new ShoppingCartItemDto(x)).ToList(); // has to be nullable
         }
 
         public int Id { get; set; }
         public string BuyerId { get; set; }
-        public List<ProductDto> Products { get; set; } = new List<ProductDto>();
+        public List<ShoppingCartItemDto> CartItems { get; set; } = new List<ShoppingCartItemDto>();
         public DateTime DateOfCreation { get; set; }
     }
 }

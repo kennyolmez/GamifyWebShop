@@ -4,7 +4,7 @@ namespace Web.ViewModels.CartViewModels
 {
     public class IndexViewModel
     {
-        public string Id { get; set; }
+        // We actually want properties here instread of DTOs
         public ShoppingCartDto UserCart { get; set; }
     }
 }

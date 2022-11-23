@@ -15,10 +15,29 @@ namespace Domain.Entities
         }
         public int Id { get; set; }
         public string BuyerId { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public List<ShoppingCartItem> CartProducts { get; set; }
         public DateTime DateOfCreation { get; set; }
 
-        // Add AddCartItem and CartItemQuantity methods here and flesh out CartItems and make them separate from catalogitems
+        public void AddItem(Product product, int quantity = 1)
+        {
+            if (!CartProducts.Any(i => i.Id == product.Id))
+            {
+                CartProducts.Add(new ShoppingCartItem(product.Name, product.Brand.Name, product.Price, quantity));
+                return;
+            }
+            var duplicateProducts = CartProducts.First(i => i.Id == product.Id);
+            duplicateProducts.AddQuantity(quantity);
+        }
+
+        public void RemoveEmptyItems()
+        {
+            CartProducts.RemoveAll(i => i.Quantity == 0);
+        }
+
+        public void SetNewBuyerId(string buyerId)
+        {
+            BuyerId = buyerId;
+        }
     }
 }
 

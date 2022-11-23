@@ -19,7 +19,7 @@ namespace Infrastructure.EntityConfigurations
             .HasMaxLength(256);
 
 
-            builder.HasMany(b => b.Products).WithMany(b => b.ShoppingCarts);
+            builder.HasMany(b => b.CartProducts).WithOne(x => x.ShoppingCart);
         }
     }
 }

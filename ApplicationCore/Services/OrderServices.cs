@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data;
+﻿using Domain.Entities;
+using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,13 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task CreateOrder()
+        public async Task CreateOrder(string? buyerId, string? cartId)
         {
+            ShoppingCart cart = new ShoppingCart("");
+
+            if (buyerId is not null && cartId is not null)
+            {
+            }
             // Fetch basket
             // Create order entity 
             // Save changes

@@ -24,8 +24,7 @@ namespace ApplicationCore.Services
         public async Task<ShoppingCartDto> GetOrCreateCart(string? userId)
         {
             var cart = await _context.ShoppingCarts
-                .Include(x => x.Products).ThenInclude(x => x.Brand)
-                .Include(x => x.Products).ThenInclude(x => x.ProductType).ThenInclude(x => x.Category)
+                .Include(x => x.CartProducts)
                 .Where(x => x.BuyerId == userId).Select(x => new ShoppingCartDto(x))
                 .FirstOrDefaultAsync();
 
@@ -50,9 +49,9 @@ namespace ApplicationCore.Services
         }
         
         // Add quantity and price too parameters?
-        public async Task AddToCart(string? userId, int productId, int cartId)
+        public async Task AddToCart(string? userId, int productId)
         {
-            var cart = await _context.ShoppingCarts.Include(x => x.Products).Where(x => x.BuyerId == userId).FirstOrDefaultAsync();
+            var cart = await _context.ShoppingCarts.Where(x => x.BuyerId == userId).FirstOrDefaultAsync();
 
             if(cart == null)
             {
@@ -61,26 +60,12 @@ namespace ApplicationCore.Services
             }
 
             // FirstAsync since we know the product should always exist. 
-            cart.Products.Add(await _context.Products.Where(x => x.Id == productId).FirstAsync());
+
+            var product = await _context.Products.Include(x => x.Brand).Where(x => x.Id == productId).FirstOrDefaultAsync();
+
+            cart.AddItem(product, 1);
 
             _context.SaveChanges();
         }
-
-        // Redundant for now
-        //public async Task<List<ProductDto>> GetCartItems(string userId)
-        //{
-        //    var cart = await _context.ShoppingCarts
-        //        .Include(x => x.Products).ThenInclude(x => x.Brand)
-        //        .Include(x => x.Products).ThenInclude(x => x.ProductType).ThenInclude(x => x.Category)
-        //        .Where(x => x.BuyerId == userId).FirstOrDefaultAsync();
-
-            
-
-        //    var cartItems = cart.Products.ToList();
-
-        //    var cartItemsOutput = cartItems.Select(x => new ProductDto(x)).ToList();
-
-        //    return cartItemsOutput;
-        //}
     }
 }

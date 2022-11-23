@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CatalogServices>();
 builder.Services.AddScoped<CartServices>();
+builder.Services.AddScoped<OrderServices>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("Default");

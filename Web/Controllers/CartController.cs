@@ -21,10 +21,12 @@ namespace Web.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];
-  
+            var cart = await _cartServices.GetOrCreateCart(userId);
+
+
             IndexViewModel vm = new IndexViewModel
             {
-                UserCart = await _cartServices.GetOrCreateCart(userId)
+                UserCart = cart
             };
 
             return View(vm);
@@ -37,7 +39,7 @@ namespace Web.Controllers
 
             var cart = await _cartServices.GetOrCreateCart(userId);
 
-            await _cartServices.AddToCart(userId, productId, cart.Id);
+            await _cartServices.AddToCart(userId, productId);
 
             return RedirectToAction("Index", "Catalog");
         }

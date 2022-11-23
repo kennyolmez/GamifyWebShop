@@ -1,5 +1,8 @@
 ﻿using ApplicationCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using System.Security.Claims;
+using Web.ViewModels.OrderViewModels;
 
 namespace Web.Controllers
 {
@@ -7,23 +10,34 @@ namespace Web.Controllers
     {
         private readonly ILogger<OrderController> _logger;
         private readonly OrderServices _orderServices;
-        public OrderController(OrderServices orderServices, ILogger<OrderController> logger)
+        private readonly CartServices _cartServices;
+        private string? userId = null;
+        public OrderController(OrderServices orderServices, CartServices cartServices, ILogger<OrderController> logger)
         {
             _orderServices = orderServices;
+            _cartServices = cartServices;
             _logger = logger;
         }
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> CreateOrder()
         {
-            // Fetch basket/products
-            // Use items to model viewmodel
-            // Return to view
-            return View();
+            userId = User.Identity!.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];
+
+            CheckoutViewModel vm = new CheckoutViewModel
+            {
+                UserCart = await _cartServices.GetOrCreateCart(userId)
+            };
+
+            return View(vm);
         }
 
-        public async Task<IActionResult> Checkout()
+        [HttpPost]
+        public async Task<IActionResult> Checkout(string userCartId)
         {
-            // Fetch basket
-            // Execute CreateOrder method from OrderServices
+            userId = User.Identity!.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];
+
+            await _orderServices.CreateOrder(userId, userCartId);
+
             return View();
         }
     }
