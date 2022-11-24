@@ -16,5 +16,10 @@ namespace Web.ViewModels.OrderViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public ShoppingCartDto UserCart { get; set; }
+
+        public decimal TotalPrice()
+        {
+            return Math.Round(UserCart.CartItems.Sum(x => x.Price * x.Quantity), 2);
+        }
     }
 }

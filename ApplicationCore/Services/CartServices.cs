@@ -67,5 +67,23 @@ namespace ApplicationCore.Services
 
             _context.SaveChanges();
         }
+
+        public async Task UpdateQuantity(Dictionary<int, int> productAndQuantity)
+        {
+            var carts = await _context.ShoppingCartItems.Where(x => productAndQuantity.Keys.Any(p => p == x.Id)).ToListAsync();
+
+            foreach (var cart in carts)
+            {
+                foreach(var p in productAndQuantity)
+                {
+                    if(p.Key == cart.Id)
+                    {
+                        cart.SetQuantity(p.Value);
+                    }
+                }
+            }
+
+            _context.SaveChanges();
+        }
     }
 }

@@ -32,5 +32,10 @@ namespace Domain.Entities
         {
             Quantity += quantity;
         }
+
+        public void SetQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
     }
 }

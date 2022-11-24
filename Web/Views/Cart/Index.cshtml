@@ -1,25 +1,29 @@
 ﻿@using Web.ViewModels.CartViewModels
 @*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
 @model IndexViewModel
 
-
-@if (Model.UserCart.CartItems is not null  && Model.UserCart.CartItems.Count() > 0)
-{
-    @foreach (var item in Model.UserCart.CartItems)
+<form asp-action="UpdateCart" asp-controller="Cart" method="post">
+    @if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
     {
-        <p>Name: @item.ProductName Brand: @item.ProductBrand Quantity: @item.Quantity</p>
+        @for(int i = 0; i < Model.UserCart.CartItems.Count(); i++)
+        {
+            <p>Name: @Model.UserCart.CartItems[i].ProductName Brand: @Model.UserCart.CartItems[i].ProductBrand Quantity: @Model.UserCart.CartItems[i].Quantity</p>
+            <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
+            <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
+        }
     }
-}
-else
-{
-    <p>There are no products in the shopping cart yet!</p>
-}
+    else
+    {
+        <p>There are no products in the shopping cart yet!</p>
+    }
+    <button type="submit" value="Update Cart"></button>
+</form>
 
+<p>@Model.TotalPrice()</p>
 
 
 <a asp-controller="Catalog"

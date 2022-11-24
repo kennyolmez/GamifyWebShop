@@ -43,5 +43,13 @@ namespace Web.Controllers
 
             return RedirectToAction("Index", "Catalog");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCart(Dictionary<int, int> productAndQuantity)
+        {
+            await _cartServices.UpdateQuantity(productAndQuantity);
+
+            return RedirectToAction("Index");
+        }
     }
 }
