@@ -47,13 +47,13 @@ namespace ApplicationCore.Services
 
             return await _context.ShoppingCarts.Where(x => x.BuyerId == userId).Select(x => new ShoppingCartDto(x)).FirstAsync();
         }
-        
+
         // Add quantity and price too parameters?
         public async Task AddToCart(string? userId, int productId)
         {
             var cart = await _context.ShoppingCarts.Where(x => x.BuyerId == userId).FirstOrDefaultAsync();
 
-            if(cart == null)
+            if (cart == null)
             {
                 cart = new ShoppingCart(userId);
                 _context.ShoppingCarts.Add(cart);
@@ -70,17 +70,19 @@ namespace ApplicationCore.Services
 
         public async Task UpdateQuantity(Dictionary<int, int> productAndQuantity)
         {
-            var carts = await _context.ShoppingCartItems.Where(x => productAndQuantity.Keys.Any(p => p == x.Id)).ToListAsync();
+            var cartItems = await _context.ShoppingCartItems.Where(x => productAndQuantity.Keys.Any(p => p == x.Id)).Include(x => x.ShoppingCart).ToListAsync();
 
-            foreach (var cart in carts)
+            foreach (var cartItem in cartItems)
             {
-                foreach(var p in productAndQuantity)
+                foreach (var p in productAndQuantity)
                 {
-                    if(p.Key == cart.Id)
+                    if (p.Key == cartItem.Id)
                     {
-                        cart.SetQuantity(p.Value);
+                        cartItem.SetQuantity(p.Value);
                     }
                 }
+
+                cartItem.ShoppingCart.RemoveEmptyItems();
             }
 
             _context.SaveChanges();

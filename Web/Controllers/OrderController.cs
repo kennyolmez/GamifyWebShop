@@ -19,6 +19,8 @@ namespace Web.Controllers
             _logger = logger;
         }
 
+        // Better to fetch directly from services instead of passing in a parameter, as that may jeopardize app security
+        // For example, somebody could get your cart Id and check it out if this were a Post
         public async Task<IActionResult> CreateOrder()
         {
             userId = User.Identity!.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];

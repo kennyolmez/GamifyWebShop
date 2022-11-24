@@ -11,7 +11,9 @@
     {
         @for(int i = 0; i < Model.UserCart.CartItems.Count(); i++)
         {
-            <p>Name: @Model.UserCart.CartItems[i].ProductName Brand: @Model.UserCart.CartItems[i].ProductBrand Quantity: @Model.UserCart.CartItems[i].Quantity</p>
+            <p><b>@Model.UserCart.CartItems[i].ProductName</b></p>
+            <p>@Model.UserCart.CartItems[i].ProductBrand</p> 
+            <p>Quantity: @Model.UserCart.CartItems[i].Quantity</p>
             <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
             <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
         }
@@ -20,10 +22,10 @@
     {
         <p>There are no products in the shopping cart yet!</p>
     }
-    <button type="submit" value="Update Cart"></button>
+    <button type="submit" class="btn btn-info">Update Cart</button>
 </form>
 
-<p>@Model.TotalPrice()</p>
+<p>Total: @Model.TotalPrice()</p>
 
 
 <a asp-controller="Catalog"
