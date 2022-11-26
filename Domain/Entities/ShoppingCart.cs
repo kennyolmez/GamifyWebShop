@@ -20,12 +20,15 @@ namespace Domain.Entities
 
         public void AddItem(Product product, int quantity = 1)
         {
-            if (!CartProducts.Any(i => i.Id == product.Id))
+            // If the item already exists in the shopping cart
+            if (!CartProducts.Any(i => i.ProductName == product.Name)) 
             {
-                CartProducts.Add(new ShoppingCartItem(product.Name, product.Brand.Name, product.Price, quantity));
+                CartProducts.Add(new ShoppingCartItem(product.Id, product.Name, product.Brand.Name, product.Price, quantity));
                 return;
             }
-            var duplicateProducts = CartProducts.First(i => i.Id == product.Id);
+
+
+            var duplicateProducts = CartProducts.First(i => i.ProductId == product.Id);
             duplicateProducts.AddQuantity(quantity);
         }
 

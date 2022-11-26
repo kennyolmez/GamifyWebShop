@@ -17,16 +17,15 @@
             <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
             <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
         }
+
+        <button type="submit" class="btn btn-info">Update Cart</button>
+        <p>Total: @Model.TotalPrice()</p>
     }
     else
     {
         <p>There are no products in the shopping cart yet!</p>
     }
-    <button type="submit" class="btn btn-info">Update Cart</button>
 </form>
-
-<p>Total: @Model.TotalPrice()</p>
-
 
 <a asp-controller="Catalog"
    asp-action="Index">Return to Home</a>

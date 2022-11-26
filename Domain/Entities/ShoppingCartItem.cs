@@ -8,12 +8,13 @@ namespace Domain.Entities
 {
     public class ShoppingCartItem
     {
-        public ShoppingCartItem(string name, string brand, decimal price, int quantity)
+        public ShoppingCartItem(int productId, string name, string brand, decimal price, int quantity)
         {
             ProductName = name;
             ProductBrand = brand;
             Price = price;
             Quantity = quantity;
+            ProductId = productId;
         }
 
         public ShoppingCartItem() { }
@@ -24,7 +25,7 @@ namespace Domain.Entities
         public int BasketId { get; set; }
         public string ProductName { get; set; }
         public string ProductBrand { get; set; }
-
+        public int ProductId { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
 
  

@@ -59,9 +59,7 @@ namespace ApplicationCore.Services
                 _context.ShoppingCarts.Add(cart);
             }
 
-            // FirstAsync since we know the product should always exist. 
-
-            var product = await _context.Products.Include(x => x.Brand).Where(x => x.Id == productId).FirstOrDefaultAsync();
+            var product = await _context.Products.Include(x => x.Brand).Where(x => x.Id == productId).FirstOrDefaultAsync(); 
 
             cart.AddItem(product, 1);
 

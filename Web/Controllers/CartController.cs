@@ -36,8 +36,7 @@ namespace Web.Controllers
         public async Task<IActionResult> AddToCart(int productId)
         {
             var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];
-
-            var cart = await _cartServices.GetOrCreateCart(userId);
+            await _cartServices.GetOrCreateCart(userId);
 
             await _cartServices.AddToCart(userId, productId);
 
