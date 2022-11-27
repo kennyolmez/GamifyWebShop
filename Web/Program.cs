@@ -7,6 +7,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Web.Middleware;
+using FluentValidation;
+using System;
+using Web.ViewModels.OrderViewModels;
+using Web.ViewModels.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CatalogServices>();
 builder.Services.AddScoped<CartServices>();
 builder.Services.AddScoped<OrderServices>();
+builder.Services.AddValidatorsFromAssemblyContaining<CheckoutViewModelValidator>();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
