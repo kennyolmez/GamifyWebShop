@@ -1,8 +1,10 @@
 ﻿using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,13 +20,45 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task CreateOrder(string? buyerId, string? cartId)
+        public async Task CreateOrder(string? buyerId,
+                                      int? cartId,
+                                      string email,
+                                      string firstName,
+                                      string lastName,
+                                      string phoneNumber,
+                                      string zipCode,
+                                      string streetAddress,
+                                      string city,
+                                      string county,
+                                      string? deliveryAddressName)
         {
-            ShoppingCart cart = new ShoppingCart("");
+            var cart = new ShoppingCart("");
+            var deliveryAddress = new DeliveryAddress(streetAddress, zipCode, county, city, deliveryAddressName); 
+
+            // Generate order number
+            // Generate the total cost etc
 
             if (buyerId is not null && cartId is not null)
             {
+                cart = await _context.ShoppingCarts.Include(x => x.CartProducts).Where(x => x.BuyerId == buyerId).FirstAsync();
+                
+                _context.Orders.Add(new Order(buyerId)
+                {
+                    Products = cart.CartProducts,
+                    DeliveryAddress = deliveryAddress,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    PhoneNumber = phoneNumber,
+                    Email = email,
+                    OrderNumber = Guid.NewGuid().ToString(),
+                });
+
+                _context.ShoppingCarts.Remove(cart);
+
+                _context.SaveChanges();
             }
+
+
             // Fetch basket
             // Create order entity 
             // Save changes

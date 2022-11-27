@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
 
+
 namespace ApplicationCore.Services
 {
     public class CartServices
@@ -85,5 +86,7 @@ namespace ApplicationCore.Services
 
             _context.SaveChanges();
         }
+
+        // Create some sort of viewmodel > OrderDto mapper here 
     }
 }

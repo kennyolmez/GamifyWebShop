@@ -17,7 +17,6 @@ builder.Services.AddScoped<CatalogServices>();
 builder.Services.AddScoped<CartServices>();
 builder.Services.AddScoped<OrderServices>();
 
-
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));

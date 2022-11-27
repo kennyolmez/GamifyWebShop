@@ -1,25 +1,43 @@
-﻿@using Web.ViewModels
-@using Web.ViewModels.OrderViewModels
+﻿@using Web.ViewModels.OrderViewModels
+@*
+*@
+@{
+}
 
+@model OrderViewModel
 
-@model CheckoutViewModel
-
-
-@if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
-{
-    @foreach (var item in Model.UserCart.CartItems)
+<form asp-action="Checkout" asp-controller="Order" method="post">
+    @if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
     {
-        <p>@item.ProductName</p>
-        <p>@item.ProductBrand</p>
+        @for (int i = 0; i < Model.UserCart.CartItems.Count(); i++)
+        {
+            <p><b>@Model.UserCart.CartItems[i].ProductName</b></p>
+            <p>@Model.UserCart.CartItems[i].ProductBrand</p>
+            <p>Quantity: @Model.UserCart.CartItems[i].Quantity</p>
+            <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
+            <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
+        }
+        <p>Total: @Model.TotalPrice()</p>
     }
-}
-else
-{
-    <p>There are no products in the shopping cart yet!</p>
-}
-
-
+    else
+    {
+        <p>There are no products in the shopping cart yet!</p>
+    }
+    
+    <input asp-for="FirstName" type="text" value="First Name">
+    <input asp-for="LastName" type="text" value="Last Name">
+    <input asp-for="EmailAddress" type="text" value="Email">
+    <input asp-for="PhoneNumber" type="text" value="Phone Number">
+    <input asp-for="ZipCode" type="text" value="ZipCode"/>
+    <input asp-for="StreetAddress" type="text" value="Street Address">
+    <input asp-for="County" type="text" value="County">
+    <input asp-for="City" type="text" value="City">
+    <input asp-for="AddressName" type="text" value="Address Name">
+    <button type="submit" class="btn btn-info">Pay</button>
+</form>
 
 <a asp-controller="Catalog"
    asp-action="Index">Return to Home</a>
 
+<a asp-controller="Order"
+   asp-action="CreateOrder">Go to Checkout</a>

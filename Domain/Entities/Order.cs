@@ -8,39 +8,32 @@ namespace Domain.Entities
 {
     public class Order
     {
-        public Order(string buyerId, string email, string zipCode)
+        public Order(string buyerId)
         {
             BuyerId = buyerId;
-            Email = email;
-            ZipCode = zipCode;
         }
 
         public int Id { get; set; }
+        public string OrderNumber { get; set; }
         public string BuyerId { get; set; }
         public string Email { get; set; }
-        public string Street { get; set; }
-
-        public string City { get; set; }
-
-        public string State { get; set; }
-
-        public string Country { get; set; }
-
-        public string ZipCode { get; set; }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
+        public DeliveryAddress DeliveryAddress { get; set; }
+        public int DeliveryAddressId { get; set; }
+        public List<ShoppingCartItem> Products { get; set; } = new List<ShoppingCartItem>();
 
-        public ICollection<Product> Products { get; set; }
+        public decimal TotalOrderPrice()
+        {
+            var total = 0m;
 
-        //Unfinished for now, need to add units
-        //public decimal Total()
-        //{
-        //    var total = 0m;
-        //    foreach (var item in Products)
-        //    {
-        //        total += item.Price * item.Units;
-        //    }
-        //    return total;
-        //}
+            foreach (var item in Products)
+            {
+                total += item.Price * item.Quantity;
+            }
+            return total;
+        }
     }
 }

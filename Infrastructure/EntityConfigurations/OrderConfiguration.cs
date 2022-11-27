@@ -13,13 +13,28 @@ namespace Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
+            builder.HasOne(b => b.DeliveryAddress).WithOne();
+
+            builder.HasMany(b => b.Products).WithOne();
+
             builder.Property(b => b.BuyerId)
             .IsRequired()
             .HasMaxLength(256);
 
-            builder.Property(b => b.Email)
+            builder.Property(b => b.PhoneNumber)
                 .IsRequired()
             .HasMaxLength(100);
+
+            builder.Property(b => b.FirstName)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.Property(b => b.LastName)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.Property(b => b.Products)
+                .IsRequired();     
         }
     }
 }
