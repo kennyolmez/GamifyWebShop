@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 using System.Security.Claims;
 using Web.ViewModels.CartViewModels;
 using Microsoft.AspNetCore.Http;
+using Web.Extensions;
 
 
 namespace Web.Controllers
@@ -13,16 +14,17 @@ namespace Web.Controllers
     {
 
         private readonly CartServices _cartServices;
+        private readonly Lazy<string> _userId;
         public CartController(CartServices cartServices)
         {
             _cartServices = cartServices;
+            // Defers the initialization of GetUserId until the Value property (which is a method) is called
+            _userId = new(() => HttpContext.GetUserId()); 
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];
-            var cart = await _cartServices.GetOrCreateCart(userId);
-
+            var cart = await _cartServices.GetOrCreateCart(_userId.Value);
 
             IndexViewModel vm = new IndexViewModel
             {
@@ -35,10 +37,9 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId)
         {
-            var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier).ToString() : Request.Cookies["guest"];
-            await _cartServices.GetOrCreateCart(userId);
+            await _cartServices.GetOrCreateCart(_userId.Value);
 
-            await _cartServices.AddToCart(userId, productId);
+            await _cartServices.AddToCart(_userId.Value, productId);
 
             return RedirectToAction("Index", "Catalog");
         }
