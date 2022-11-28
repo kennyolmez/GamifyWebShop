@@ -6,6 +6,12 @@
 
 @model CheckoutViewModel
 
+<form asp-action="AutofillAddressInformation" asp-controller="Order" method="post">
+    <label>Postal Code</label>
+    <input type="text" name="postalCode" type="text"/>
+    <button type="submit" class="btn btn-info">Get Closest Service Point</button>
+    </form>
+
 <form asp-action="Checkout" asp-controller="Order" method="post">
     <div asp-validation-summary="All">
         @if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
@@ -15,8 +21,8 @@
                 <p><b>@Model.UserCart.CartItems[i].ProductName</b></p>
                 <p>@Model.UserCart.CartItems[i].ProductBrand</p>
                 <p>Quantity: @Model.UserCart.CartItems[i].Quantity</p>
-                <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
-                <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
+                @*<input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
+                <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />*@
             }
             <p>Total: @Model.TotalPrice()</p>
         }
@@ -26,40 +32,36 @@
         }
         <ul style ="list-style: none;">
             <li>
-                <label asp-for="FirstName"></label>
+                <label asp-for="FirstName">First Name</label>
                 <input asp-for="FirstName" type="text">
             </li>
             <li>
-                <label asp-for="LastName"></label>
+                <label asp-for="LastName">Last Name</label>
                 <input asp-for="LastName" type="text">
             </li>
             <li>
-                <label asp-for="EmailAddress"></label>
+                <label asp-for="EmailAddress">Email Address</label>
                 <input asp-for="EmailAddress" type="text">
             </li>
             <li>
-                <label asp-for="PhoneNumber"></label>
+                <label asp-for="PhoneNumber">Phone Number</label>
                 <input asp-for="PhoneNumber" type="text">
             </li>
             <li>
-                <label asp-for="ZipCode"></label>
-                <input asp-for="ZipCode" type="text"/>
+                <label asp-for="PostalCode">Postal Code</label>
+                <input asp-for="PostalCode" type="text" value=@(Model.PostalCode ?? "") />
             </li>
             <li>
-                <label asp-for="StreetAddress"></label>
-                <input asp-for="StreetAddress" type="text">
+                <label asp-for="StreetAddress">Street Address</label>
+                <input asp-for="StreetAddress" type="text" value=@(Model.StreetAddress ?? "")>
             </li>
             <li>
-                <label asp-for="County"></label>
-                <input asp-for="County" type="text">
+                <label asp-for="City">City</label>
+                <input asp-for="City" type="text" value=@(Model.City ?? "")>
             </li>
             <li>
-                <label asp-for="City"></label>
-                <input asp-for="City" type="text">
-            </li>
-            <li>
-                <label asp-for="AddressName"></label>
-                <input asp-for="AddressName" type="text">
+                <label asp-for="AddressName">Address Name</label>
+                <input asp-for="AddressName" type="text" value=@(Model.AddressName ?? "")>
             </li>
             
         </ul>
@@ -68,8 +70,8 @@
     </div>
 </form>
 
-<a asp-controller="Catalog"
-   asp-action="Index">Return to Home</a>
 
-<a asp-controller="Order"
-   asp-action="CreateOrder">Go to Checkout</a>
+
+<a asp-controller="Catalog"
+   asp-action="Index">Back</a>
+

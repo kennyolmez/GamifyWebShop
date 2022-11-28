@@ -6,9 +6,12 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using Newtonsoft.Json;
 using System;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using Web.Extensions;
+using Web.Models.ServicePointAggregate;
 using Web.ViewModels.OrderViewModels;
 
 namespace Web.Controllers
@@ -58,7 +61,7 @@ namespace Web.Controllers
                                              model.FirstName,
                                              model.LastName,
                                              model.PhoneNumber,
-                                             model.ZipCode,
+                                             model.PostalCode,
                                              model.StreetAddress,
                                              model.City,
                                              model.County,
@@ -70,6 +73,53 @@ namespace Web.Controllers
             model.UserCart = await _cartServices.GetOrCreateCart(_userId.Value);
 
             return View("CreateOrder", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AutofillAddressInformation(string postalCode)
+        {
+            List<ServicePoint> servicePoints = await GetAddressInformation(postalCode);
+
+            if(servicePoints is not null)
+            {
+                CheckoutViewModel vm = new CheckoutViewModel
+                {
+                    AddressName = servicePoints.First().Name,
+                    StreetAddress = $"{servicePoints.First().DeliveryAddress.StreetName} {servicePoints.First().DeliveryAddress.StreetNumber}",
+                    City = servicePoints.First().DeliveryAddress.City,
+                    PostalCode = servicePoints.First().DeliveryAddress.PostalCode,
+                };
+
+                vm.UserCart = await _cartServices.GetOrCreateCart(_userId.Value);
+
+                return View("CreateOrder", vm);
+            }
+            
+            return RedirectToAction("CreateOrder");
+        }
+
+        public async Task<List<ServicePoint>> GetAddressInformation(string postalCode)
+        {
+            string baseURL = "https://atapi2.postnord.com/rest/businesslocation/";
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage getData = await client.GetAsync($"https://atapi2.postnord.com/rest/businesslocation/v5/servicepoints/bypostalcode?apikey=c54fa0bc570d72bb3e45613f01f028a4&returnType=json&countryCode=SE&postalCode={postalCode}&context=optionalservicepoint&responseFilter=public");
+
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    var addressInformation = JsonConvert.DeserializeObject<ServicePointInformationRoot>(results);
+
+                    return addressInformation.ServicePointInformationResponse.ServicePoints;
+                }
+            }
+
+            return null;
         }
     }
 }
