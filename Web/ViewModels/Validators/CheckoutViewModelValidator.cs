@@ -38,12 +38,12 @@ namespace Web.ViewModels.Validators
                 .WithMessage("Last Name is required")
                 .WithName("Last Name");
 
-            RuleFor(x => x.ZipCode)
+            RuleFor(x => x.PostalCode)
                 .NotNull()
-                .WithMessage("Zip code is required")
+                .WithMessage("Postal code is required")
                 .Matches("^\\d{3}\\s*\\d{2}$")
-                .WithMessage("Must be correct format for SE Zip code")
-                .WithName("Zip Code");
+                .WithMessage("Must be correct format for SE postal code")
+                .WithName("POstal Code");
 
             RuleFor(x => x.County)
                 .NotNull()
