@@ -11,15 +11,18 @@
     {
         @for(int i = 0; i < Model.UserCart.CartItems.Count(); i++)
         {
-            <p><b>@Model.UserCart.CartItems[i].ProductName</b></p>
-            <p>@Model.UserCart.CartItems[i].ProductBrand</p> 
-            <p>Quantity: @Model.UserCart.CartItems[i].Quantity</p>
+            <section>
+                <p><b>@Model.UserCart.CartItems[i].ProductName</b> x @Model.UserCart.CartItems[i].Quantity <br>
+                    <small>@Model.UserCart.CartItems[i].ProductBrand</small>
+                </p>
             <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
             <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
+            </section>
         }
 
-        <button type="submit" class="btn btn-info">Update Cart</button>
         <p>Total: @Model.TotalPrice()</p>
+
+        <button type="submit" class="btn btn-info">Update Cart</button>
     }
     else
     {

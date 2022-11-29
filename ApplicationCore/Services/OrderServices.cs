@@ -29,11 +29,10 @@ namespace ApplicationCore.Services
                                       string zipCode,
                                       string streetAddress,
                                       string city,
-                                      string county,
                                       string? deliveryAddressName)
         {
             var cart = new ShoppingCart("");
-            var deliveryAddress = new DeliveryAddress(streetAddress, zipCode, county, city, deliveryAddressName); 
+            var deliveryAddress = new DeliveryAddress(streetAddress, zipCode, city, deliveryAddressName); 
 
             // Generate order number
             // Generate the total cost etc

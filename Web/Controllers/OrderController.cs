@@ -64,10 +64,9 @@ namespace Web.Controllers
                                              model.PostalCode,
                                              model.StreetAddress,
                                              model.City,
-                                             model.County,
                                              model.AddressName);
 
-                return View("/Catalog/Index");
+                return RedirectToAction("Index", "Catalog");
             }
 
             model.UserCart = await _cartServices.GetOrCreateCart(_userId.Value);

@@ -24,7 +24,7 @@ namespace Web.ViewModels.Validators
             RuleFor(x => x.PhoneNumber)
                 .NotNull()
                 .WithMessage("Phone Number is required")
-                .Matches("^([+]46)\\s*(7[0236])\\s*(\\d{4})\\s*(\\d{3})$")
+                .Matches("^07(0|2|3|6|9)\\d{7}$")
                 .WithMessage("Must be valid SE phone number")
                 .WithName("Phone Number");
 
@@ -43,11 +43,7 @@ namespace Web.ViewModels.Validators
                 .WithMessage("Postal code is required")
                 .Matches("^\\d{3}\\s*\\d{2}$")
                 .WithMessage("Must be correct format for SE postal code")
-                .WithName("POstal Code");
-
-            RuleFor(x => x.County)
-                .NotNull()
-                .WithMessage("County is required");
+                .WithName("Postal Code");
 
             RuleFor(x => x.City)
                 .NotNull()

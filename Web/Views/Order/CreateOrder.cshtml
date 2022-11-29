@@ -8,9 +8,20 @@
 
 <form asp-action="AutofillAddressInformation" asp-controller="Order" method="post">
     <label>Postal Code</label>
-    <input type="text" name="postalCode" type="text"/>
+    <input type="text" name="postalCode" type="text" />
     <button type="submit" class="btn btn-info">Get Closest Service Point</button>
-    </form>
+    @if (Model.PostalCode is not null)
+    {
+        <h4>Service Point</h4>
+        <p>
+            <b>
+                @Model.AddressName<br>
+                @Model.StreetAddress<br>
+                @Model.City @Model.PostalCode
+            </b>
+        </p>
+    }
+</form>
 
 <form asp-action="Checkout" asp-controller="Order" method="post">
     <div asp-validation-summary="All">
@@ -18,11 +29,14 @@
         {
             @for (int i = 0; i < Model.UserCart.CartItems.Count(); i++)
             {
-                <p><b>@Model.UserCart.CartItems[i].ProductName</b></p>
-                <p>@Model.UserCart.CartItems[i].ProductBrand</p>
-                <p>Quantity: @Model.UserCart.CartItems[i].Quantity</p>
+                <section>
+                    <p>
+                        <b>@Model.UserCart.CartItems[i].ProductName</b> x @Model.UserCart.CartItems[i].Quantity<br>
+                        <small>@Model.UserCart.CartItems[i].ProductBrand</small>
+                    </p>
+                </section>
                 @*<input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
-                <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />*@
+        <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />*@
             }
             <p>Total: @Model.TotalPrice()</p>
         }
@@ -30,7 +44,7 @@
         {
             <p>There are no products in the shopping cart yet!</p>
         }
-        <ul style ="list-style: none;">
+        <ul style="list-style: none;">
             <li>
                 <label asp-for="FirstName">First Name</label>
                 <input asp-for="FirstName" type="text">
@@ -48,22 +62,18 @@
                 <input asp-for="PhoneNumber" type="text">
             </li>
             <li>
-                <label asp-for="PostalCode">Postal Code</label>
-                <input asp-for="PostalCode" type="text" value=@(Model.PostalCode ?? "") />
+                <input asp-for="PostalCode" type="hidden" value=@(Model.PostalCode ?? null) />
             </li>
             <li>
-                <label asp-for="StreetAddress">Street Address</label>
-                <input asp-for="StreetAddress" type="text" value=@(Model.StreetAddress ?? "")>
+                <input asp-for="StreetAddress" type="hidden" value=@(Model.StreetAddress ?? null)>
             </li>
             <li>
-                <label asp-for="City">City</label>
-                <input asp-for="City" type="text" value=@(Model.City ?? "")>
+                <input asp-for="City" type="hidden" value=@(Model.City ?? null)>
             </li>
             <li>
-                <label asp-for="AddressName">Address Name</label>
-                <input asp-for="AddressName" type="text" value=@(Model.AddressName ?? "")>
+                <input asp-for="AddressName" type="hidden" value=@(Model.AddressName ?? null)>
             </li>
-            
+
         </ul>
 
         <button type="submit" class="btn btn-info">Pay</button>
