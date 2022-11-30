@@ -23,14 +23,16 @@ namespace Web.Controllers
         private readonly CartServices _cartServices;
         private readonly Lazy<string> _userId;
         private IValidator<CheckoutViewModel> _orderValidator;
+        private IConfiguration _config;
 
-        public OrderController(OrderServices orderServices, CartServices cartServices, ILogger<OrderController> logger, IValidator<CheckoutViewModel> orderValidator)
+        public OrderController(OrderServices orderServices, CartServices cartServices, ILogger<OrderController> logger, IValidator<CheckoutViewModel> orderValidator, IConfiguration config)
         {
             _orderServices = orderServices;
             _cartServices = cartServices;
             _logger = logger;
             _userId = new(() => HttpContext.GetUserId());
             _orderValidator = orderValidator;
+            _config = config;
         }
 
         // Better to fetch directly from services instead of passing in a parameter, as that may jeopardize app security
@@ -41,6 +43,11 @@ namespace Web.Controllers
             {
                 UserCart = await _cartServices.GetOrCreateCart(_userId.Value)
             };
+
+            if(vm.UserCart.CartItems.Count() < 1)
+            {
+                return RedirectToAction("Index", "Cart");
+            }
 
             return View(vm);
         }
@@ -107,7 +114,9 @@ namespace Web.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage getData = await client.GetAsync($"https://atapi2.postnord.com/rest/businesslocation/v5/servicepoints/bypostalcode?apikey=c54fa0bc570d72bb3e45613f01f028a4&returnType=json&countryCode=SE&postalCode={postalCode}&context=optionalservicepoint&responseFilter=public");
+                var ApiKey = _config.GetValue<string>("PostNordApiKey");
+
+                HttpResponseMessage getData = await client.GetAsync($"https://atapi2.postnord.com/rest/businesslocation/v5/servicepoints/bypostalcode?apikey={ApiKey}&returnType=json&countryCode=SE&postalCode={postalCode}&context=optionalservicepoint&responseFilter=public");
 
                 if (getData.IsSuccessStatusCode)
                 {
