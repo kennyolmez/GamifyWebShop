@@ -23,7 +23,7 @@ namespace Domain.Entities
             // If the item already exists in the shopping cart
             if (!CartProducts.Any(i => i.ProductName == product.Name)) 
             {
-                CartProducts.Add(new ShoppingCartItem(product.Id, product.Name, product.Brand.Name, product.Price, quantity));
+                CartProducts.Add(new ShoppingCartItem(product.Id, product.Name, product.Brand.Name, product.Price, product.PictureUrl, quantity));
                 return;
             }
 

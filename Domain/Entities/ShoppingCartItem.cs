@@ -8,19 +8,21 @@ namespace Domain.Entities
 {
     public class ShoppingCartItem
     {
-        public ShoppingCartItem(int productId, string name, string brand, decimal price, int quantity)
+        public ShoppingCartItem(int productId, string name, string brand, decimal price, string pictureUrl, int quantity)
         {
             ProductName = name;
             ProductBrand = brand;
             Price = price;
             Quantity = quantity;
             ProductId = productId;
+            PictureUrl = pictureUrl;
         }
 
         public ShoppingCartItem() { }
 
         public int Id { get; set; }
         public decimal Price { get; set; }
+        public string PictureUrl { get; set; }
         public int Quantity { get; set; }
         public int BasketId { get; set; }
         public string ProductName { get; set; }

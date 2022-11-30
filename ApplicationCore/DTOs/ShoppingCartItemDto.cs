@@ -16,9 +16,11 @@ namespace ApplicationCore.DTOs
             Quantity = shoppingCartItem.Quantity;
             ProductName = shoppingCartItem.ProductName;
             ProductBrand = shoppingCartItem.ProductBrand;
+            PictureUrl = shoppingCartItem.PictureUrl;
         }
         public int Id { get; set; }
         public decimal Price { get; set; }
+        public string PictureUrl { get; set; }
         public int Quantity { get; set; }
         public int BasketId { get; set; }
         public string ProductName { get; set; }
