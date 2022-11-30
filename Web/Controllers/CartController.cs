@@ -47,6 +47,13 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCart(Dictionary<int, int> productAndQuantity)
         {
+            if(productAndQuantity.Values.Any(x => x < 0))
+            {
+                TempData["NegativeQuantityError"] = "Quantity cannot be negative";
+
+                return RedirectToAction("Index");
+            }
+
             await _cartServices.UpdateQuantity(productAndQuantity);
 
             return RedirectToAction("Index");
