@@ -25,10 +25,11 @@ namespace Web.Controllers
         }
 
 
-        public async Task<IActionResult> Index(int? categorySelected, int? productTypeSelected, int? brandSelected, int? productId, int? page)
+        public async Task<IActionResult> Index(int? productTypeSelected, int? brandSelected, int? productId, string? searchString, int? page)
         {
-            int productCount = await _services.GetProductCount(productTypeSelected, brandSelected);
-            var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, page ?? 1, PagingUtilities.PageSize);
+            int productCount = await _services.GetProductCount(productTypeSelected, brandSelected, searchString);
+            var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, searchString, page ?? 1, PagingUtilities.PageSize);
+
 
             IndexViewModel viewModel = new IndexViewModel
             {
@@ -64,6 +65,12 @@ namespace Web.Controllers
                     productId = vm.ProductId,
                     page = page,
                 });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchCatalog(string? searchString)
+        {
+            return RedirectToAction("Index", new { searchString = searchString });
         }
 
         public IActionResult Privacy() => View();

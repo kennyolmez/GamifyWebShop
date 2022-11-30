@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Extensions;
+using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -22,11 +24,29 @@ namespace ApplicationCore.Services
         }
 
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, int? brandSelected, int? page, int pageSize)
+        public async Task<IEnumerable<ProductDto>> GetProducts(int? productTypeSelected, int? brandSelected, string? productSearchString, int? page, int pageSize)
         {
             List<ProductDto> outputQuery = new List<ProductDto>();
 
-            // Because I want to render all the products on the home page if no filters are applied.
+            if (productSearchString is null)
+            {
+                var filteredProducts = await GetProductsByFilter(productTypeSelected, brandSelected, page, pageSize);
+
+                outputQuery = filteredProducts.Select(x => new ProductDto(x)).ToList();
+            }
+            else
+            {
+                var filteredProducts = await GetProductsBySearchQuery(productSearchString, page, pageSize);
+
+                outputQuery = filteredProducts.Select(x => new ProductDto(x)).ToList();
+            }
+
+            return outputQuery;
+        }
+
+        private async Task<IEnumerable<Product>> GetProductsByFilter(int? productTypeSelected, int? brandSelected, int? page, int pageSize)
+        {
+            List<Product> outputQuery = new List<Product>();
 
             if (productTypeSelected.HasValue && productTypeSelected > 0) // Bad solution because we shouldn't be getting 0.
             {
@@ -38,7 +58,7 @@ namespace ApplicationCore.Services
                .Paginate(page ?? 0, pageSize)
                .ToListAsync();
 
-                outputQuery = productTypeFilterQuery.Select(x => new ProductDto(x)).ToList();
+                outputQuery = productTypeFilterQuery.ToList();
             }
             else if (brandSelected.HasValue && brandSelected > 0) // Bad solution because we shouldn't be getting 0.
             {
@@ -51,7 +71,7 @@ namespace ApplicationCore.Services
                 .ToListAsync(); // async Task<List<T>>
 
                 // Entity > DTO conversion
-                outputQuery = brandFilterQuery.Select(x => new ProductDto(x)).ToList();
+                outputQuery = brandFilterQuery.ToList();
             }
 
 
@@ -61,12 +81,21 @@ namespace ApplicationCore.Services
                 .Include(p => p.Brand)
                 .Include(p => p.ProductType)
                 .ThenInclude(p => p.Category)
-                .Select(x => new ProductDto(x))
                 .Paginate(page ?? 0, pageSize)
                 .ToListAsync();
             }
 
             return outputQuery;
+        }
+
+        private async Task<IEnumerable<Product>> GetProductsBySearchQuery(string? productSearchString, int? page, int pageSize)
+        {
+            return await _context.Products.Where(p => p.Name.Contains(productSearchString!))
+                .Include(p => p.Brand)
+                .Include(p => p.ProductType)
+                .ThenInclude(p => p.Category)
+                .Paginate(page ?? 0, pageSize)
+                .ToListAsync();
         }
 
         public async Task<ProductDto?> GetProductById(int? id)
@@ -112,15 +141,20 @@ namespace ApplicationCore.Services
         }
         // Refactor?
         // To get product count without pagination for display purposes
-        public async Task<int> GetProductCount(int? productTypeSelected, int? brandSelected)
+        public async Task<int> GetProductCount(int? productTypeSelected, int? brandSelected, string? productSearchString)
         {
-            if(productTypeSelected.HasValue)
+            if (productTypeSelected.HasValue)
             {
                 return await _context.Products.Where(x => x.ProductTypeId == productTypeSelected).CountAsync();
             }
-            else if(brandSelected.HasValue)
+            else if (brandSelected.HasValue)
             {
                 return await _context.Products.Where(x => x.BrandId == productTypeSelected).CountAsync();
+            }
+            else if (productSearchString is not null)
+            {
+                return await _context.Products.Where(p => p.Name.Contains(productSearchString!)).CountAsync();
+
             }
             else
             {
@@ -129,4 +163,3 @@ namespace ApplicationCore.Services
         }
     }
 }
- 
