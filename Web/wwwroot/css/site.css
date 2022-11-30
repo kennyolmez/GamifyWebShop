@@ -88,3 +88,178 @@ body {
     display: inline-block;
 }
 
+.productListTwo {
+    float:right;
+    margin-bottom: 30%;
+    width: 35%;
+    overflow: auto;
+    height: 60%;
+    padding-bottom: 50px;
+}
+
+/*.productDisplay {
+    max-width: 200px;
+}*/
+
+/*.itemPrice {
+    color: #f4484d;
+    float: right;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.priceSumTotal {
+    color: black;
+    float: right;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.priceSum {
+    color: black;
+    float: left;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}*/
+
+.productList {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -42%);
+    width: 35%;
+    overflow: auto;
+    height: 60%;
+    padding-bottom: 50px;
+}
+
+.productDisplay {
+    float: right;
+    max-width: 200px;
+}
+
+
+.itemPrice {
+    color: #f4484d;
+    float: right;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    bottom: 140px;
+    padding-right: 15px;
+}
+
+.priceSumTotal {
+    color: black;
+    float: right;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.priceSum {
+    color: black;
+    float: left;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttonContainer {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.shoppingCartHero {
+    font-family: Arial, Helvetica, sans-serif; 
+    position: absolute;
+    top: 14%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.priceContainer {
+    padding-top: 50px;
+    position: absolute;
+    top: 77%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+}
+
+.priceContainerTwo {
+    float: right;
+    width: 100%;
+}
+
+.productImage {
+    float: left;
+    display: block;
+    border: 2px solid #f1f1f1;
+}
+
+.productContainer{
+    height: 150px;
+    max-width: 320px;
+    padding-bottom: 10px;
+}
+
+hr {
+    overflow: visible;
+}
+
+
+.inputContainer{
+    max-width: 25%;
+    margin-top: 30%;
+    float: left;
+}
+
+
+.inputContainer > input {
+    width: 300px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+
+.postalCodeInput {
+    padding-bottom: 5px;
+    width: 150px;
+    height: 40px;
+}
+
+.postalContainer{
+    display: block;
+}
+
+.outerSearch {
+    width: 50%;
+}
+
+.catalogSearch {
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 5px;
+    height: 40px;
+    padding-bottom: 5px;
+}
+
+.catalogSearchForm{
+    width: 50%;
+}

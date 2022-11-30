@@ -7,9 +7,10 @@
 @model CheckoutViewModel
 
 <form asp-action="AutofillAddressInformation" asp-controller="Order" method="post">
-    <label>Postal Code</label>
-    <input type="text" name="postalCode" type="text" />
-    <button type="submit" class="btn btn-info">Get Closest Service Point</button>
+    <div class="postalContainer">
+        <input type="text" name="postalCode" type="text" placeholder="Postal Code" class="postalCodeInput" />
+        <button type="submit" class="btn btn-info">Service Point</button>
+    </div>
     @if (Model.PostalCode is not null)
     {
         <h4>Service Point</h4>
@@ -23,65 +24,52 @@
     }
 </form>
 
-<form asp-action="Checkout" asp-controller="Order" method="post">
-    <div asp-validation-summary="All">
-        @if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
-        {
-            @for (int i = 0; i < Model.UserCart.CartItems.Count(); i++)
+
+<div class="container">
+    <form asp-action="Checkout" asp-controller="Order" method="post">
+        <div asp-validation-summary="All">
+            @if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
             {
-                <section>
-                    <p>
-                        <b>@Model.UserCart.CartItems[i].ProductName</b> x @Model.UserCart.CartItems[i].Quantity<br>
-                        <small>@Model.UserCart.CartItems[i].ProductBrand</small>
-                    </p>
-                </section>
-                @*<input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
-        <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />*@
+                <div class="productListTwo">
+                    @for (int i = 0; i < Model.UserCart.CartItems.Count(); i++)
+                    {
+                        <section class="productContainer">
+                            <img class="productImage" src="@Model.UserCart.CartItems[i].PictureUrl" height="113" width="113" border="0" />
+                            <p class="productDisplay">
+                                <b>@Model.UserCart.CartItems[i].ProductName</b> <br>
+                                <small>@Model.UserCart.CartItems[i].ProductBrand</small> <br>
+                            </p>
+                        </section>
+                        <p class="itemPrice">@Model.UserCart.CartItems[i].Price kr</p>
+                        <hr />
+                    }
+                    <div class="priceContainerTwo">
+                            <p class="priceSum">Total:</p>
+                            <p class="priceSumTotal">@Model.TotalPrice() kr</p>
+                        </div>
+                </div>
             }
-            <p>Total: @Model.TotalPrice()</p>
-        }
-        else
-        {
-            <p>There are no products in the shopping cart yet!</p>
-        }
-        <ul style="list-style: none;">
-            <li>
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" type="text">
-            </li>
-            <li>
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" type="text">
-            </li>
-            <li>
-                <label asp-for="EmailAddress">Email Address</label>
-                <input asp-for="EmailAddress" type="text">
-            </li>
-            <li>
-                <label asp-for="PhoneNumber">Phone Number</label>
-                <input asp-for="PhoneNumber" type="text">
-            </li>
-            <li>
+            else
+            {
+                <p>There are no products in the shopping cart yet!</p>
+            }
+            <div class="inputContainer">
+                <input asp-for="FirstName" type="text" placeholder="First Name">
+                <input asp-for="LastName" type="text" placeholder="Surname">
+                <input asp-for="EmailAddress" type="text" placeholder="Email">
+                <input asp-for="PhoneNumber" type="text" placeholder="Phone Number" />
                 <input asp-for="PostalCode" type="hidden" value=@(Model.PostalCode ?? null) />
-            </li>
-            <li>
                 <input asp-for="StreetAddress" type="hidden" value=@(Model.StreetAddress ?? null)>
-            </li>
-            <li>
                 <input asp-for="City" type="hidden" value=@(Model.City ?? null)>
-            </li>
-            <li>
                 <input asp-for="AddressName" type="hidden" value=@(Model.AddressName ?? null)>
-            </li>
+                <button type="submit" class="btn btn-info">Pay</button>
+                <a asp-controller="Catalog"
+                   asp-action="Index" button type="submit" class="btn btn-info">Cancel Order</a>
+            </div>
 
-        </ul>
-
-        <button type="submit" class="btn btn-info">Pay</button>
-    </div>
-</form>
+        </div>
+    </form>
+</div>
 
 
-
-<a asp-controller="Catalog"
-   asp-action="Index">Back</a>
 

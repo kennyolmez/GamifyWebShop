@@ -6,23 +6,39 @@
 
 @model IndexViewModel
 
+<h4 class="shoppingCartHero">Your Shopping Cart</h4>
 <form asp-action="UpdateCart" asp-controller="Cart" method="post">
     @if (Model.UserCart.CartItems is not null && Model.UserCart.CartItems.Count() > 0)
     {
-        @for(int i = 0; i < Model.UserCart.CartItems.Count(); i++)
-        {
-            <section>
-                <p><b>@Model.UserCart.CartItems[i].ProductName</b> x @Model.UserCart.CartItems[i].Quantity <br>
-                    <small>@Model.UserCart.CartItems[i].ProductBrand</small>
-                </p>
-            <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
-            <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
-            </section>
-        }
+        <div class="productList">
+            @for (int i = 0; i < Model.UserCart.CartItems.Count(); i++)
+            {
+                <section class="productContainer">
+                    <img class="productImage" src="@Model.UserCart.CartItems[i].PictureUrl" height="113" width="113" border="0" />
+                    <p class="productDisplay">
+                        <b>@Model.UserCart.CartItems[i].ProductName</b> <br>
+                        <small>@Model.UserCart.CartItems[i].ProductBrand</small> <br>
+                    </p>
+                </section>
+                <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
+                <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
+                <p class="itemPrice">@Model.UserCart.CartItems[i].Price kr</p>
+                <hr />
+            }
+    
+        </div>
 
-        <p>Total: @Model.TotalPrice()</p>
+        <div class="priceContainer">
+            <p class="priceSum">Total:</p>
+            <p class="priceSumTotal">@Model.TotalPrice() kr</p>
+        </div>
 
-        <button type="submit" class="btn btn-info">Update Cart</button>
+        <div class="buttonContainer">
+            <button type="submit" class="btn btn-info">Update Cart</button>
+
+            <a asp-controller="Order"
+           asp-action="CreateOrder" button type="submit" class="btn btn-info">Go to Checkout</a>
+        </div>
     }
     else
     {
@@ -30,8 +46,21 @@
     }
 </form>
 
+
 <a asp-controller="Catalog"
    asp-action="Index">Return to Home</a>
 
-<a asp-controller="Order"
-   asp-action="CreateOrder">Go to Checkout</a>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <br />
+        @if (TempData["NegativeQuantityError"] != null)
+        {
+            <div class="alert alert-warning" role="alert">
+                &nbsp;@TempData["NegativeQuantityError"]
+            </div>
+        }
+    </div>
