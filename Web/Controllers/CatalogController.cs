@@ -54,7 +54,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(IndexViewModel vm, int? page)
+        public IActionResult Index(IndexViewModel vm, int? page)
         {
             // This is where we do validation
 
@@ -68,7 +68,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchCatalog(string? searchString)
+        public IActionResult SearchCatalog(string? searchString)
         {
             return RedirectToAction("Index", new { searchString = searchString });
         }
