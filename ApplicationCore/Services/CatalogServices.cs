@@ -132,12 +132,9 @@ namespace ApplicationCore.Services
 
         public async Task<IEnumerable<CategoryDto>> GetAllCategories()
         {
-            var productTypes = await _context.Categories
-                .ToListAsync();
+            var categories = await _context.Categories.Select(c => new CategoryDto(c)).ToListAsync();
 
-            var output = productTypes.Select(x => new CategoryDto(x)).ToList();
-
-            return output;
+            return categories;
         }
         // Refactor?
         // To get product count without pagination for display purposes
