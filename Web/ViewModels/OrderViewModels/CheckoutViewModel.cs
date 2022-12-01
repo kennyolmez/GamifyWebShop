@@ -11,8 +11,8 @@ namespace Web.ViewModels.OrderViewModels
         public string? City { get; set; }
         public string? EmailAddress { get; set; }
         public string? PhoneNumber { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public string? FullName { get; set; }
+
 
         public ShoppingCartDto? UserCart { get; set; }
         public ICollection<ShoppingCartItemDto>? CartItems { get; set; }

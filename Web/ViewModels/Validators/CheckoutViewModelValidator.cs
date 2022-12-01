@@ -28,15 +28,12 @@ namespace Web.ViewModels.Validators
                 .WithMessage("Must be valid SE phone number")
                 .WithName("Phone Number");
 
-            RuleFor(x => x.FirstName)
+            RuleFor(x => x.FullName)
                 .NotNull()
-                .WithMessage("First Name is required")
-                .WithName("First Name");
-
-            RuleFor(x => x.LastName)
-                .NotNull()
-                .WithMessage("Last Name is required")
-                .WithName("Last Name");
+                .WithMessage("Name is required")
+                .Matches("(^[A-Öa-ö]{3,16})([ ]{0,1})([A-Za-z]{3,16})?([ ]{0,1})?([A-Öa-ö]{3,16})?([ ]{0,1})?([A-Za-z]{3,16})")
+                .WithMessage("Name must be formatted correctly: Only letters A-Ö and minimum three letters and one space.")
+                .WithName("Name");
 
             RuleFor(x => x.PostalCode)
                 .NotNull()

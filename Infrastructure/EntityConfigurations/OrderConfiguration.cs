@@ -25,13 +25,9 @@ namespace Infrastructure.EntityConfigurations
                 .IsRequired()
             .HasMaxLength(100);
 
-            builder.Property(b => b.FirstName)
+            builder.Property(b => b.FullName)
                 .IsRequired()
-                .HasMaxLength(50);
-
-            builder.Property(b => b.LastName)
-                .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder.Property(b => b.Products)
                 .IsRequired();     

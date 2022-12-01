@@ -68,6 +68,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        // Doesn't have to be async since it's only a redirect, will use a thread if traffic is too high
         public IActionResult SearchCatalog(string? searchString)
         {
             return RedirectToAction("Index", new { searchString = searchString });
