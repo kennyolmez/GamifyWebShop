@@ -5,19 +5,18 @@
 
 
 
-<ul>
-    <li>
-        <p>@Model.Product.Name</p>
-        <p>@Model.Product.Price</p>
+<div class="productHeader">
+    <img class="productPageImage" src="@Model.Product.PictureUrl" border="0" />
+    <div class="productPageProductInformation">
+        <p class="productPageBrand">@Model.Product.Brand.Name</p>
+        <p class="productPageProduct">@Model.Product.Name</p>
+        <p class="productPagePrice">@Model.Product.Price kr</p>
         <p>@Model.Product.Description</p>
-        <p>@Model.Product.Brand.Name</p>
-    </li>
-</ul>
 
+        <form asp-action="AddToCart" asp-controller="Cart" method="post">
+            <input asp-for="@Model.ProductId" type="hidden" name="productId" value="@Model.Product.Id">
+            <input type="submit" class="addToCartButton" value="Add To Cart">
+        </form>
+    </div>
+</div>
 
-<form asp-action="AddToCart" asp-controller="Cart" method="post">
-    <label class="catalog-label" data-title="brand">
-        <input asp-for="@Model.ProductId" type="hidden" name="productId" value="@Model.Product.Id">
-        <input type="submit" class="astextsubmit" value="Add To Cart">
-    </label>
-</form>

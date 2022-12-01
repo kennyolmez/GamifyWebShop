@@ -20,8 +20,8 @@ body {
 
 /* Dropdown Button */
 .dropbtn {
-    background-color: #04AA6D;
-    color: white;
+    background-color: #31d2f2;
+    color: black;
     padding: 16px;
     font-size: 16px;
     border: none;
@@ -63,21 +63,11 @@ body {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: #31d2f2;
 }
 
 
-.astextsubmit {
-    background: none !important;
-    border: none;
-    padding: 0 !important;
-    /*optional*/
-    font-family: arial, sans-serif;
-    /*input has OS specific font-family*/
-    color: #069;
-    text-decoration: underline;
-    cursor: pointer;
-}
+
 
 
 .wrapper {
@@ -85,6 +75,10 @@ body {
 }
 
 .dropdown-menu {
+    top: 12%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -15%);
     display: inline-block;
 }
 
@@ -262,4 +256,147 @@ hr {
 
 .catalogSearchForm{
     width: 50%;
+}
+
+
+.catalogProductDisplay {
+    float: left;
+    margin-right: 10px;
+    width: 15%;
+    min-width: 150px;
+    height: 300px;
+    background-color: #EFF4F8;
+}
+
+.catalogProductBrand {
+    color: #818181;
+    font-family: Arial, Arial, Helvetica, sans-serif, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.catalogProductImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border: 2px solid #f1f1f1;
+    max-height: 116px;
+}
+
+.astextsubmit {
+    background: none !important;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+    overflow: visible;
+}
+
+.catalogGrid {
+    width: 75%;
+    overflow: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    flex: auto;
+}
+
+.catalogProductName {
+    color: black;
+    font-family: Arial, Arial, Helvetica, sans-serif, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.catalogProductPrice {
+    color: #f4484d;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-right: 15px;
+    bottom: 0px;
+    float: left;
+}
+
+.paginationText {
+    float: left;
+}
+.paginationButtonContainer {
+    width: 75%;
+    top: 15%;
+    float: left;
+}
+
+.nextButton {
+    background-color: #31d2f2;
+}
+
+.previousButton {
+    background-color: #31d2f2;
+}
+
+.productHeader{
+    margin-top: 10%;
+    height: 70%;
+}
+
+.productPageImage {
+    max-width: 600px;
+    max-height: 500px;
+    height: 65%;
+    width: 65%;
+}
+
+.productPageProductInformation{
+    margin-top: 5%;
+    float: right;
+    overflow: visible;
+    max-width: 300px;
+}
+
+.productPageBrand {
+    color: #818181;
+    font-family: Arial, Arial, Helvetica, sans-serif, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.productPageProduct {
+    color: black;
+    font-family: Arial, Arial, Helvetica, sans-serif, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.productPagePrice {
+    color: #f4484d;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-right: 15px;
+}
+
+.addToCartButton {
+    background-color: rgb(46, 204, 113);
+    color: #fff;
+    font-size: 16px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 900;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    padding: 0 20px;
+    transition: all 0.2s ease;
+    float: right;
+    width: 100%;
 }

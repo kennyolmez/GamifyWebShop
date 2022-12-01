@@ -54,8 +54,7 @@
                 <p>There are no products in the shopping cart yet!</p>
             }
             <div class="inputContainer">
-                <input asp-for="FirstName" type="text" placeholder="First Name">
-                <input asp-for="LastName" type="text" placeholder="Surname">
+                <input asp-for="FullName" autocapitalize="words" type="text" placeholder="Name">
                 <input asp-for="EmailAddress" type="text" placeholder="Email">
                 <input asp-for="PhoneNumber" type="text" placeholder="Phone Number" />
                 <input asp-for="PostalCode" type="hidden" value=@(Model.PostalCode ?? null) />

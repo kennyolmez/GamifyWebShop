@@ -3,36 +3,45 @@
 
 @model IndexViewModel
 
-<p>Showing @Model.PaginationHelper.ProductsOnPage of @Model.PaginationHelper.ProductCount - Page @Model.PaginationHelper.Page of @Model.PaginationHelper.PageCount</p>
 
-@foreach(var product in Model.Products)
-{
-    <form asp-action="Index" asp-controller="Catalog" method="post">
-        <label class="catalog-label" data-title="brand">
+<div class="catalogGrid">
+    @foreach (var product in Model.Products)
+    {
+        <form asp-action="Index" asp-controller="Catalog" method="post">
             <input asp-for="@Model.ProductId" type="hidden" value="@product.Id">
-            <img src="@product.PictureUrl" height="113" width="113" border="0" />
-            <input type="submit" class="astextsubmit" value="@product.Name">
-        </label>
-    </form>
+            <button class="catalogProductDisplay">
+                <img src="@product.PictureUrl" class="catalogProductImage" />
+                <p class="catalogProductBrand">@product.Brand.Name</p>
+                <type="hidden" value="@product.Name">
+                <p class="catalogProductName">@product.Name</p>
+                <p class="catalogProductPrice">@product.Price kr</p></button>
+        </form>
+    }
+</div>
 
-}
+<div class="paginationButtonContainer">
 
 
-@if (Model.PaginationHelper.NextIsEnabled)
-{
-    <form asp-action="Index" asp-controller="Catalog" method="post">
-        <label class="catalog-label" data-title="page">
-            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page + 1)" />
-            <button type="submit" class="btn btn-info" id="searchbutton">Next Page</button>
-        </label>
-    </form>
-}
-@if (Model.PaginationHelper.PreviousIsEnabled)
-{
-    <form asp-action="Index" asp-controller="Catalog" method="post">
-        <label class="catalog-label" data-title="page">
-            <input type="hidden" name="page" value="@(Model.PaginationHelper.Page - 1)" />
-            <button type="submit" class="btn btn-info" id="searchbutton">Previous Page</button>
-        </label>
-    </form>
-}
+    @if (Model.PaginationHelper.NextIsEnabled)
+    {
+        <form asp-action="Index" asp-controller="Catalog" method="post">
+            <label class="catalog-label" data-title="page">
+                <input type="hidden" name="page" value="@(Model.PaginationHelper.Page + 1)" />
+                <button type="submit" class="nextButton" id="searchbutton">Next Page</button>
+            </label>
+        </form>
+    }
+    @if (Model.PaginationHelper.PreviousIsEnabled)
+    {
+        <form asp-action="Index" asp-controller="Catalog" method="post">
+            <label class="catalog-label" data-title="page">
+                <input type="hidden" name="page" value="@(Model.PaginationHelper.Page - 1)" />
+                <button type="submit" class="previousButton" id="searchbutton">Previous Page</button>
+            </label>
+        </form>
+    }
+
+    <p class="paginationText">Showing @Model.PaginationHelper.ProductsOnPage of @Model.PaginationHelper.ProductCount - Page @Model.PaginationHelper.Page of @Model.PaginationHelper.PageCount</p>
+
+</div>
+
