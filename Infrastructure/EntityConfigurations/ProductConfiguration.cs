@@ -30,6 +30,10 @@ namespace Infrastructure.EntityConfigurations
             builder.HasOne(p => p.ProductType)
                 .WithMany(p => p.Products)
                 .HasForeignKey(p => p.ProductTypeId);
+
+            builder.HasMany(c => c.Reviews)
+                .WithOne(c => c.Product)
+                .HasForeignKey(c => c.ProductId);
         }
     }
 }

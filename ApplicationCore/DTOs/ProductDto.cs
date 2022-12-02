@@ -23,6 +23,8 @@ namespace ApplicationCore.DTOs
             Brand = new BrandDto(product.Brand);
             ProductTypeId = product.ProductTypeId;
             ProductType = new ProductTypeDto(product.ProductType);
+            Reviews = product.Reviews?.Select(x => new ProductReviewDto(x)).ToList();
+            Rating = product.Rating;
         }
 
         public int Id { get; set; }
@@ -32,8 +34,10 @@ namespace ApplicationCore.DTOs
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public int BrandId { get; set; }
+        public double? Rating { get; set; }
         public BrandDto Brand { get; set; }
         public int ProductTypeId { get; set; } // Foreign key for clarity, better being more explicit than not 
         public ProductTypeDto ProductType { get; set; }
+        public ICollection<ProductReviewDto>? Reviews { get; set; }
     }
 }
