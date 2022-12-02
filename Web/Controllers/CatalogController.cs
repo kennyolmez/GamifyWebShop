@@ -19,13 +19,10 @@ namespace Web.Controllers
     {
         private readonly ILogger<CatalogController> _logger;
         private readonly CatalogServices _services; // Rename to catalog services
-        private readonly Lazy<string> _userId;
-
         public CatalogController(ILogger<CatalogController> logger, CatalogServices services)
         {
             _logger = logger;
             _services = services;
-            _userId = new(() => HttpContext.GetUserId());
         }
 
 
@@ -78,14 +75,6 @@ namespace Web.Controllers
             return RedirectToAction("Index", new { searchString = searchString });
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> PostReview(string comment, double rating, int productId)
-        {
-            await _services.AddReviewToCatalogProduct(comment, rating, _userId.Value, User.Identity.Name, productId);
-
-            return RedirectToAction("Index", new { productId = productId });
-        }
 
         public IActionResult Privacy() => View();
 

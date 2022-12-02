@@ -46,16 +46,19 @@
     </div>
 </div>
 
-@if(Model.Product == null)
+@if (Model.Product == null)
 {
     <div class="catalog-display">
-            <partial name="_Catalog" for="@Model"/>
+        <partial name="_Catalog" for="@Model" />
     </div>
 }
 else
 {
-    <partial name="_Product" for="@Model"/>
-}
+    <partial name="/Views/Catalog/_Product.cshtml" model='new _ProductViewModel { Brand = @Model.Brand,
+                                                            Category = @Model.Category,
+                                                            ProductType = @Model.ProductType,
+                                                            Product = @Model.Product}' />
+                                                        }
 
 
 

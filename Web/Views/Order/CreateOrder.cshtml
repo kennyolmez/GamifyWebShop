@@ -61,7 +61,7 @@
                 <input asp-for="StreetAddress" type="hidden" value=@(Model.StreetAddress ?? null)>
                 <input asp-for="City" type="hidden" value=@(Model.City ?? null)>
                 <input asp-for="AddressName" type="hidden" value=@(Model.AddressName ?? null)>
-                <button type="submit" class="btn btn-info">Pay</button>
+                <button type="submit" class="btn btn-info">Place Order</button>
                 <a asp-controller="Catalog"
                    asp-action="Index" button type="submit" class="btn btn-info">Cancel Order</a>
             </div>

@@ -1,6 +1,6 @@
 ﻿@using Web.ViewModels.CatalogViewModels
 
-@model IndexViewModel
+@model _ProductViewModel
 
 
 
@@ -37,13 +37,15 @@
 </div>
 
 
-<form asp-action="PostReview" asp-controller="Catalog" method="post">
+<form asp-action="PostReview" asp-controller="Review" method="post">
     <div class="reviewContainer">
         <div class="wrapperReview">
-            <input type="text" name="comment" placeholder="Comment" class="reviewComment" />
-            <input type="number" name="rating" placeholder="Rating" class="ratingInput" />
-            <input type="hidden" name="productId" value="@Model.Product.Id" />
-            <button type="submit" class="postReviewButton">Post Review</button>
+            <div asp-validation-summary="All">
+                <input asp-for="Comment" type="text" placeholder="Comment" class="reviewComment">
+                <input asp-for="Rating" type="number" placeholder="Rating" class="ratingInput">
+                <input type="hidden" name="productId" value="@Model.Product.Id" />
+                <button type="submit" class="postReviewButton">Post Review</button>
+            </div>
         </div>
     </div>
 </form>
