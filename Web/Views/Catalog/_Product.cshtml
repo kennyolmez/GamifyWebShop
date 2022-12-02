@@ -12,7 +12,23 @@
         <p class="productPageProduct">@Model.Product.Name</p>
         <p class="productPagePrice">@Model.Product.Price kr</p>
         <p>@Model.Product.Description</p>
+        @if (Model.Product.Rating is not null)
+        {
+            <div class="productPageRating">
+                @for (int i = 0; i < 5; i++)
+                {
+                    @if (i < Model.Product.Rating)
+                    {
+                        <img src="https://i.imgur.com/blIpMB4.png" class="ratingStar" />
+                    }
+                    else
+                    {
+                        <img src="https://i.imgur.com/b15onED.png" class="ratingStar" />
+                    }
+                }
+            </div>
 
+        }
         <form asp-action="AddToCart" asp-controller="Cart" method="post">
             <input asp-for="@Model.ProductId" type="hidden" name="productId" value="@Model.Product.Id">
             <input type="submit" class="addToCartButton" value="Add To Cart">
@@ -20,3 +36,30 @@
     </div>
 </div>
 
+
+<form asp-action="PostReview" asp-controller="Catalog" method="post">
+    <div class="reviewContainer">
+        <div class="wrapperReview">
+            <input type="text" name="comment" placeholder="Comment" class="reviewComment" />
+            <input type="number" name="rating" placeholder="Rating" class="ratingInput" />
+            <input type="hidden" name="productId" value="@Model.Product.Id" />
+            <button type="submit" class="postReviewButton">Post Review</button>
+        </div>
+    </div>
+</form>
+
+
+
+<div class="reviewsContainer">
+    <h1>All Reviews</h1>
+    @foreach (var item in Model.Product.Reviews)
+    {
+        <div class="review">
+            <div class="reviewText">
+                <p class="comment">Email: @item.UserEmail</p>
+                <p class="comment">Comment: @item.Comment</p>
+                <p class="comment">Rating: @item.Rating</p>
+            </div>
+        </div>
+    }
+</div>
