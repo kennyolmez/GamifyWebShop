@@ -103,9 +103,21 @@ namespace ApplicationCore.Services
             return await _context.Products.Include(p => p.Brand)
                 .Include(p => p.ProductType)
                 .ThenInclude(p => p.Category)
+                .Include(r => r.Reviews)
                 .Where(x => x.Id == id)
                 .Select(x => new ProductDto(x))
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task AddReviewToCatalogProduct(string? comment, double rating, string userEmail, string userId, int productId)
+        {
+            var product = await _context.Products.Include(p => p.Reviews).Where(p => p.Id == productId).FirstOrDefaultAsync();
+
+            product.Reviews.Add(new ProductReview(rating, comment, userEmail, userId));
+
+            product.SetRating();
+
+            _context.SaveChanges();
         }
 
 
