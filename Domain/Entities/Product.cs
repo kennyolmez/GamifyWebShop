@@ -30,7 +30,7 @@
         {
             if (Reviews is not null && Reviews.Count() > 0)
             {
-                Rating = Math.Round(Reviews.Sum(x => x.Rating) / Reviews.Count(), 1);
+                Rating = Math.Round((double)Reviews.Sum(x => x.Rating) / Reviews.Count(), 1);
             }
             else
             {

@@ -20,7 +20,7 @@ namespace Infrastructure.EntityConfigurations
 
             builder.Property(p => p.Rating)
                 .IsRequired()
-                .HasColumnType("double");
+                .HasColumnType("int");
 
             builder.Property(p => p.UserEmail)
                 .IsRequired();

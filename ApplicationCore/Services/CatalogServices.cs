@@ -109,7 +109,7 @@ namespace ApplicationCore.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task AddReviewToCatalogProduct(string? comment, double rating, string userEmail, string userId, int productId)
+        public async Task AddReviewToCatalogProduct(string? comment, int rating, string userEmail, string userId, int productId)
         {
             var product = await _context.Products.Include(p => p.Reviews).Where(p => p.Id == productId).FirstOrDefaultAsync();
 
