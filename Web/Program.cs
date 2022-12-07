@@ -11,6 +11,8 @@ using FluentValidation;
 using System;
 using Web.ViewModels.OrderViewModels;
 using Web.ViewModels.Validators;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Coravel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddScoped<CatalogServices>();
 builder.Services.AddScoped<CartServices>();
 builder.Services.AddScoped<OrderServices>();
 builder.Services.AddValidatorsFromAssemblyContaining<CheckoutViewModelValidator>();
+builder.Services.AddSingleton<EmailServices>();
+builder.Services.AddMailer(builder.Configuration);
+builder.Services.AddQueue();
+
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

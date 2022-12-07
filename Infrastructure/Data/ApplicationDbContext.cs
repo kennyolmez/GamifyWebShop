@@ -22,6 +22,7 @@ namespace Infrastructure.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<ProductReview> Reviews { get; set; }
+        public DbSet<PendingInvoiceMail> PendingInvoiceMails { get; set; }
 
         // base accesses members of the base class (identitydbcontext)
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

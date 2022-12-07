@@ -29,8 +29,8 @@ namespace Domain.Entities
         public string ProductBrand { get; set; }
         public int ProductId { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
+        public PendingInvoiceMail? PendingInvoiceMail { get; set; }
 
- 
         public void AddQuantity(int quantity)
         {
             Quantity += quantity;

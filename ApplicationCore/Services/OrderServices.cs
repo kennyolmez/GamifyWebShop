@@ -1,22 +1,19 @@
 ﻿using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ApplicationCore.Services
 {
     public class OrderServices
     {
         private readonly ApplicationDbContext _context;
+        private readonly EmailServices _emailServices;
 
-        public OrderServices(ApplicationDbContext context)
+        public OrderServices(ApplicationDbContext context, EmailServices emailServices)
         {
             _context = context;
+            _emailServices = emailServices;
         }
 
 
@@ -31,35 +28,32 @@ namespace ApplicationCore.Services
                                       string? deliveryAddressName)
         {
             var cart = new ShoppingCart("");
-            var deliveryAddress = new DeliveryAddress(streetAddress, zipCode, city, deliveryAddressName); 
+            var deliveryAddress = new DeliveryAddress(streetAddress, zipCode, city, deliveryAddressName);
 
-            // Generate order number
-            // Generate the total cost etc
 
             if (buyerId is not null && cartId is not null)
             {
                 cart = await _context.ShoppingCarts.Include(x => x.CartProducts).Where(x => x.BuyerId == buyerId).FirstAsync();
-                
-                _context.Orders.Add(new Order(buyerId)
+
+                var order = new Order("buyerId")
                 {
                     Products = cart.CartProducts,
                     DeliveryAddress = deliveryAddress,
                     FullName = fullName,
                     PhoneNumber = phoneNumber,
                     Email = email,
-                    OrderNumber = Guid.NewGuid().ToString(),
-                });
+                    OrderNumber = Guid.NewGuid().ToString(), // Temporary
+                };
 
+
+                _context.Orders.Add(order);
+
+                _emailServices.SendInvoice(email, order.OrderNumber, order.Products);
+
+   
                 _context.ShoppingCarts.Remove(cart);
-
                 _context.SaveChanges();
             }
-
-
-            // Fetch basket
-            // Create order entity 
-            // Save changes
-            // Delete basket
         }
     }
 }
