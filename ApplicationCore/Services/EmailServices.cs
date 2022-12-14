@@ -1,13 +1,14 @@
-﻿using ApplicationCore.DTOs;
-using Coravel.Mailer.Mail.Interfaces;
-using Microsoft.Extensions.Logging;
+﻿using Coravel.Mailer.Mail.Interfaces;
 using Coravel.Queuing.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
 using Domain.Entities;
-using X.PagedList;
 using ApplicationCore.CoravelMailing;
 using ApplicationCore.CoravelMailing.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationCore.Services
 {
@@ -23,17 +24,19 @@ namespace ApplicationCore.Services
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public void SendInvoice(string email, string orderNumber, List<ShoppingCartItem> cartItems)
+        public async void TrySendInvoice(string email, string orderNumber, List<OrderItem> orderItems)
         {
+
             if (email is null)
             {
                 return;
             }
 
-            InvoiceModel model = new InvoiceModel
+            InvoiceModel model = new()
             {
                 Recipient = email,
-                Products = cartItems.Select(x => new ShoppingCartItemDto(x)).ToList()
+                OrderNumber = orderNumber,
+                OrderItems = orderItems,
             };
 
             // Queues in memory
@@ -43,7 +46,7 @@ namespace ApplicationCore.Services
                 {
                     await _mailer.SendAsync(new InvoiceMailable(model));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                     using (var scope = _serviceScopeFactory.CreateScope())
@@ -52,11 +55,14 @@ namespace ApplicationCore.Services
 
                         var pendingMail = new PendingInvoiceMail(email, orderNumber)
                         {
-                            InvoiceItems = cartItems
+                            OrderNumber = orderNumber,
+                            OrderItems = await db.OrderItems.Where(x => x.Order.OrderNumber == orderNumber).ToListAsync()
                         };
 
-                        db!.PendingInvoiceMails.Add(pendingMail);
+                        // Track orderitems and set to unchanged because otherwise the context can't save the pendingmail changes.
+                        db.AttachRange(pendingMail.OrderItems);
 
+                        db!.PendingInvoiceMails.Add(pendingMail);
                         db.SaveChanges();
                     }
 
@@ -66,8 +72,6 @@ namespace ApplicationCore.Services
                 }
 
             });
-
         }
-
     }
 }

@@ -20,7 +20,7 @@
                     {
                         @if (item.Category.Name == category.Name)
                         {
-                            <form asp-action="Index" asp-controller="Catalog" method="post">
+                            <form asp-action="Category" asp-controller="Catalog" method="post" asp-route-productType="@item.Name">
                                 <label class="catalog-label" data-title="productType">
                                     <input asp-for="@Model.CategorySelected" type="hidden" value="@category.Id">
                                     <input asp-for="@Model.ProductTypeSelected" type="hidden" value="@item.Id">

@@ -16,16 +16,15 @@ namespace Domain.Entities
 
         public int Id { get; set; }
         public string Recipient { get; set; }
-
         public string OrderNumber { get; set; }
 
-        public ICollection<ShoppingCartItem> InvoiceItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
 
         public decimal TotalOrderPrice()
         {
             decimal total = 0;
 
-            foreach (var item in InvoiceItems)
+            foreach (var item in OrderItems)
             {
                 total += item.Price * item.Quantity;
             }

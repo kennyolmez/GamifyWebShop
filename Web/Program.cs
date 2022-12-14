@@ -13,6 +13,12 @@ using Web.ViewModels.OrderViewModels;
 using Web.ViewModels.Validators;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Coravel;
+using ApplicationCore.Services.HostedServices;
+using Domain.Entities;
+using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using System.Net;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +29,10 @@ builder.Services.AddScoped<CatalogServices>();
 builder.Services.AddScoped<CartServices>();
 builder.Services.AddScoped<OrderServices>();
 builder.Services.AddValidatorsFromAssemblyContaining<CheckoutViewModelValidator>();
-builder.Services.AddSingleton<EmailServices>();
+builder.Services.AddScoped<EmailServices>();
 builder.Services.AddMailer(builder.Configuration);
 builder.Services.AddQueue();
+builder.Services.AddHostedService<EmailHostedService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
@@ -108,7 +115,8 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Catalog}/{action=Index}/{id?}");
+    pattern: "{controller=Catalog}/{action=Index}/{id?}"
+    );
 app.MapRazorPages();
 
 // Middleware extension to assign cookie to user

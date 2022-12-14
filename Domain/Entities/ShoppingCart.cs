@@ -15,12 +15,12 @@ namespace Domain.Entities
         }
         public int Id { get; set; }
         public string BuyerId { get; set; }
-        public List<ShoppingCartItem> CartProducts { get; set; }
+        public List<ShoppingCartItem>? CartProducts { get; set; }
         public DateTime DateOfCreation { get; set; }
 
         public void AddItem(Product product, int quantity = 1)
         {
-            // If the item already exists in the shopping cart
+            // If the item doesn't exist do this
             if (!CartProducts.Any(i => i.ProductName == product.Name)) 
             {
                 CartProducts.Add(new ShoppingCartItem(product.Id, product.Name, product.Brand.Name, product.Price, product.PictureUrl, quantity));

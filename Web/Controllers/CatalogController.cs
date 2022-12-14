@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
@@ -25,14 +26,13 @@ namespace Web.Controllers
             _services = services;
         }
 
-
         public async Task<IActionResult> Index(int? productTypeSelected, int? brandSelected, int? productId, string? searchString, int? page)
         {
             int productCount = await _services.GetProductCount(productTypeSelected, brandSelected, searchString);
             var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, searchString, page ?? 1, PagingUtilities.PageSize);
+            
 
-
-            IndexViewModel viewModel = new IndexViewModel
+            IndexViewModel viewModel = new()
             {
                 Product = await _services.GetProductById(productId),
                 Products = filteredProducts,
@@ -54,6 +54,16 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Category(int productTypeSelected, int? page)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult Category(IndexViewModel vm)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
         public IActionResult Index(IndexViewModel vm, int? page)
         {
@@ -69,7 +79,6 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        // Doesn't have to be async since it's only a redirect, will use a thread if traffic is too high
         public IActionResult SearchCatalog(string? searchString)
         {
             return RedirectToAction("Index", new { searchString = searchString });

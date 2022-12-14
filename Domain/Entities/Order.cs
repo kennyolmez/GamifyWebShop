@@ -20,15 +20,13 @@ namespace Domain.Entities
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
-        public DeliveryAddress DeliveryAddress { get; set; }
-        public int DeliveryAddressId { get; set; }
-        public List<ShoppingCartItem> Products { get; set; } = new List<ShoppingCartItem>();
+        public List<OrderItem> OrderItems { get; set; }
 
         public decimal TotalOrderPrice()
         {
             var total = 0m;
 
-            foreach (var item in Products)
+            foreach (var item in OrderItems)
             {
                 total += item.Price * item.Quantity;
             }

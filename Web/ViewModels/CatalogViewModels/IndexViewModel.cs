@@ -17,6 +17,5 @@ namespace Web.ViewModels.CatalogViewModels
         public int? CategorySelected { get; set; }
         public int? ProductTypeSelected { get; set; }
         public PaginationHelper? PaginationHelper { get; set; }
-
     }
 }

@@ -19,7 +19,9 @@ namespace Infrastructure.EntityConfigurations
             .HasMaxLength(256);
 
 
-            builder.HasMany(b => b.CartProducts).WithOne(x => x.ShoppingCart);
+            builder.HasMany(b => b.CartProducts)
+                .WithOne(x => x.ShoppingCart)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

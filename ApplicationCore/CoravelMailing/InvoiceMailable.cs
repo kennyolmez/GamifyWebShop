@@ -14,7 +14,6 @@ namespace ApplicationCore.CoravelMailing
         {
             var htmlString = GenerateHtmlInvoice();
 
-
               To(invoice.Recipient)
              .From("gamifywebshop@gmail.com")
              .Html(htmlString);
@@ -26,16 +25,16 @@ namespace ApplicationCore.CoravelMailing
 
             var test = "<h1 style=\"text-align:center\">Invoice for your order: </h1>";
 
-            for (int i = 0; i < invoice.Products.Count(); i++)
+            for (int i = 0; i < invoice.OrderItems.Count(); i++)
             {
                 test += $"<div style=\"text-align:center>\"" +
                     $"<section class=\"productContainer\">\r\n" +
-                    $"<img class=\"productImage\" src=\"{invoice.Products[i].PictureUrl}\" height=\"113\" width=\"113\" border=\"0\" />\r\n" +
+                    $"<img class=\"productImage\" src=\"{invoice.OrderItems[i].PictureUrl}\" height=\"113\" width=\"113\" border=\"0\" />\r\n" +
                     $"<p class=\"productDisplay\">" +
-                    $"<b>{invoice.Products[i].ProductName}</b> <br>" +
-                    $"<small>{invoice.Products[i].ProductBrand}</small></p>" +
+                    $"<b>{invoice.OrderItems[i].ProductName}</b> <br>" +
+                    $"<small>{invoice.OrderItems[i].ProductBrand}</small></p>" +
                 $"</section>" +
-                $"<p>x {invoice.Products[i].Quantity} x {invoice.Products[i].Price}</p>" +
+                $"<p>x {invoice.OrderItems[i].Quantity} x {invoice.OrderItems[i].Price}</p>" +
                 $"<div class=\"priceContainer\">\r\n" +
                     $"</div>\r\n" +
                     $"<hr />";

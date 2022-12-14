@@ -4,23 +4,23 @@
 
 namespace Infrastructure.Migrations
 {
-    public partial class AddedProductFKToShoppingCartItem : Migration
+    public partial class morepropertyadditions : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "ProductId",
-                table: "ShoppingCartItems",
-                type: "int",
+            migrationBuilder.AddColumn<string>(
+                name: "OrderNumber",
+                table: "PendingInvoiceMails",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ProductId",
-                table: "ShoppingCartItems");
+                name: "OrderNumber",
+                table: "PendingInvoiceMails");
         }
     }
 }

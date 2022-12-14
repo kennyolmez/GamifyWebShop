@@ -13,9 +13,9 @@ namespace Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasOne(b => b.DeliveryAddress).WithOne();
-
-            builder.HasMany(b => b.Products).WithOne();
+            builder.HasMany(b => b.OrderItems)
+                .WithOne(x => x.Order)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(b => b.BuyerId)
             .IsRequired()
@@ -29,7 +29,7 @@ namespace Infrastructure.EntityConfigurations
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(b => b.Products)
+            builder.Property(b => b.OrderItems)
                 .IsRequired();     
         }
     }

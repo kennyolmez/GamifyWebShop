@@ -28,31 +28,34 @@ namespace ApplicationCore.Services
                                       string? deliveryAddressName)
         {
             var cart = new ShoppingCart("");
-            var deliveryAddress = new DeliveryAddress(streetAddress, zipCode, city, deliveryAddressName);
-
 
             if (buyerId is not null && cartId is not null)
             {
                 cart = await _context.ShoppingCarts.Include(x => x.CartProducts).Where(x => x.BuyerId == buyerId).FirstAsync();
 
-                var order = new Order("buyerId")
+                var order = new Order(buyerId)
                 {
-                    Products = cart.CartProducts,
-                    DeliveryAddress = deliveryAddress,
+                    OrderItems = cart.CartProducts.Select(x => new OrderItem
+                    {
+                        ProductName = x.ProductName,
+                        PictureUrl = x.PictureUrl,
+                        Price = x.Price,
+                        Quantity = x.Quantity,
+                        ProductBrand = x.ProductBrand,
+                        ProductId = x.ProductId,
+                    }).ToList(),
                     FullName = fullName,
                     PhoneNumber = phoneNumber,
                     Email = email,
                     OrderNumber = Guid.NewGuid().ToString(), // Temporary
                 };
 
-
                 _context.Orders.Add(order);
-
-                _emailServices.SendInvoice(email, order.OrderNumber, order.Products);
-
-   
                 _context.ShoppingCarts.Remove(cart);
                 _context.SaveChanges();
+
+                // If mail fails to send it will be added to the database
+                _emailServices.TrySendInvoice(email, order.OrderNumber, order.OrderItems);
             }
         }
     }

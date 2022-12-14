@@ -15,8 +15,6 @@ namespace Infrastructure.EntityConfigurations
         {
             builder.Property(x => x.Recipient)
                 .IsRequired();
-
-            builder.HasMany(b => b.InvoiceItems).WithOne(x => x.PendingInvoiceMail);
         }
     }
 }

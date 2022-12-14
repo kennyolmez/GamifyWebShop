@@ -24,12 +24,12 @@ namespace Domain.Entities
         public decimal Price { get; set; }
         public string PictureUrl { get; set; }
         public int Quantity { get; set; }
-        public int BasketId { get; set; }
+        public int ShoppingCartId { get; set; }
         public string ProductName { get; set; }
         public string ProductBrand { get; set; }
         public int ProductId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
-        public PendingInvoiceMail? PendingInvoiceMail { get; set; }
+        // Nullable to support the severing of the relationship between parent and child
+        public ShoppingCart ShoppingCart { get; set; } 
 
         public void AddQuantity(int quantity)
         {

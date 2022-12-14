@@ -4,7 +4,7 @@
 
 namespace Infrastructure.Migrations
 {
-    public partial class changedpropertytypeinconfig : Migration
+    public partial class removednullablerelationship : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
