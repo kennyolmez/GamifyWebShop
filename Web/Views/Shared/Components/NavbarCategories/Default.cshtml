@@ -1,0 +1,25 @@
+﻿@using ApplicationCore.DTOs
+@model NavbarCategoryModel
+
+
+@foreach (var category in Model.Categories)
+{
+    <div class="dropdown">
+        <button class="dropbtn">@category.Name</button>
+        <div class="dropdown-content">
+        @foreach (var item in Model.ProductTypes)
+        {
+            @if (item.Category.Name == category.Name)
+            {
+                <form asp-action="Category" asp-controller="Catalog" method="post">
+                        <input name="categoryId" type="hidden" value="@category.Id">
+                        <input name="productTypeId" type="hidden" value="@item.Id">
+                        <input type="submit" class="astextsubmit" value="@item.Name">
+                </form>
+
+            }
+        }
+        </div>
+    </div>
+}
+
