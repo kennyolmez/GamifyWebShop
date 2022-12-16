@@ -13,7 +13,7 @@
             @if (item.Category.Name == category.Name)
             {
                 <form asp-action="Category" asp-controller="Catalog" method="post">
-                        <input asp-for="ProductTypeId" type="hidden" value="@category.Id">
+                        <input asp-for="ProductTypeId" type="hidden" value="@item.Id">
                         <input type="submit" class="astextsubmit" value="@item.Name">
                 </form>
 

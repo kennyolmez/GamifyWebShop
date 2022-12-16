@@ -84,14 +84,12 @@ namespace Web.Controllers
                 Page = page ?? 1,
                 TotalProductCount = totalFilteredProductCount,
             };
-            return RedirectToAction("Category", vm);
+            return View("Index", vm);
         }
 
         [HttpPost]
         public IActionResult Index(IndexViewModel vm)
         {
-            // This is where we do validation
-
             return RedirectToAction("Index",
                 new {  productId = vm.ProductId,
                     page = vm.Page
