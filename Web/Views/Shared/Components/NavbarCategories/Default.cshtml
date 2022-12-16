@@ -13,8 +13,7 @@
             @if (item.Category.Name == category.Name)
             {
                 <form asp-action="Category" asp-controller="Catalog" method="post">
-                        <input name="categoryId" type="hidden" value="@category.Id">
-                        <input name="productTypeId" type="hidden" value="@item.Id">
+                        <input asp-for="ProductTypeId" type="hidden" value="@category.Id">
                         <input type="submit" class="astextsubmit" value="@item.Name">
                 </form>
 
@@ -24,7 +23,7 @@
         @foreach(var item in Model.Brands)
         {
              <form asp-action="Brand" asp-controller="Catalog" method="post">
-                        <input name="brandId" type="hidden" value="@item.Id">
+                        <input asp-for="BrandId" type="hidden" value="@item.Id">
                         <input type="submit" class="astextsubmit" value="@item.Name">
                 </form>
         }

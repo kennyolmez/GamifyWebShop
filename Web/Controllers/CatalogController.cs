@@ -29,40 +29,62 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index(int? productId, string? searchString, int? page)
         {
-            int totalProductCount = await _services.GetProductCount(null, null, null);
-            var filteredProducts = await _services.GetProducts(null, null, searchString, page ?? 1, PagingUtilities.PageSize);
- 
+            int totalFilteredProductCount = await _services.GetProductCount(null, null, searchString);
+            var paginatedProducts = await _services.GetPaginatedProducts(page ?? 1, PagingUtilities.PageSize);
+
             IndexViewModel viewModel = new()
             {
                 Product = await _services.GetProductById(productId),
-                Products = filteredProducts,
-                TotalProductCount = totalProductCount,
+                Products = paginatedProducts,
+                TotalProductCount = totalFilteredProductCount,
                 Page = page ?? 1,
             };
 
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Brand(int brandId, int? page)
+        {
+            int totalFilteredProductCount = await _services.GetProductCount(null, brandId, null);
+            var filteredAndPaginatedProducts = await _services.GetProducts(null, brandId, null, page ?? 1, PagingUtilities.PageSize);
 
-        //public IActionResult Category(IndexViewModel vm)
-        //{
-        //    return View("Index", vm);
-        //}
+            IndexViewModel vm = new()
+            {
+                BrandSelected = brandId,
+                Products = filteredAndPaginatedProducts,
+                Page = page ?? 1,
+                TotalProductCount = totalFilteredProductCount,
+            };
+
+            return View("Index", vm);
+        }
 
         [HttpPost]
+        public IActionResult Brand(NavbarCategoryModel model, int? page)
+        {
+            return RedirectToAction("Brand", new {brandId = model.BrandId, page = page});
+        }
+
         public async Task<IActionResult> Category(int productTypeId, int? page)
         {
-            int totalProductCount = await _services.GetProductCount(productTypeId, null, null);
-            var filteredProducts = await _services.GetProducts(productTypeId, null, null, page ?? 1, PagingUtilities.PageSize);
+            int totalFilteredProductCount = await _services.GetProductCount(productTypeId, null, null);
+            var filteredAndPaginatedProducts = await _services.GetProducts(productTypeId, null, null, page ?? 1, PagingUtilities.PageSize);
 
             IndexViewModel vm = new()
             {
                 ProductTypeSelected = productTypeId,
-                Products = filteredProducts,
+                Products = filteredAndPaginatedProducts,
                 Page = page ?? 1,
-                TotalProductCount = totalProductCount,
+                TotalProductCount = totalFilteredProductCount,
             };
             return View("Index", vm);
+        }
+
+
+        [HttpPost]
+        public IActionResult Category(NavbarCategoryModel model, int? page)
+        {
+            return RedirectToAction("Category", new { productTypeId = model.ProductTypeId, page = page });
         }
 
         [HttpPost]
