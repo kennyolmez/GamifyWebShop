@@ -44,6 +44,18 @@ namespace ApplicationCore.Services
             return outputQuery;
         }
 
+        public async Task<IEnumerable<ProductDto>> GetPaginatedProducts(int? page, int pageSize)
+        {
+            var paginatedProducts = await _context.Products
+               .Include(p => p.Brand)
+               .Include(p => p.ProductType)
+               .ThenInclude(p => p.Category)
+               .Paginate(page ?? 0, pageSize)
+               .ToListAsync();
+
+            return paginatedProducts.Select(x => new ProductDto(x)).ToList();
+        }
+
         private async Task<IEnumerable<Product>> GetProductsByFilter(int? productTypeSelected, int? brandSelected, int? page, int pageSize)
         {
             List<Product> outputQuery = new List<Product>();
