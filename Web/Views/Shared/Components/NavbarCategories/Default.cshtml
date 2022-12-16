@@ -7,6 +7,7 @@
     <div class="dropdown">
         <button class="dropbtn">@category.Name</button>
         <div class="dropdown-content">
+        <h4>Product Types</h4>
         @foreach (var item in Model.ProductTypes)
         {
             @if (item.Category.Name == category.Name)
@@ -18,6 +19,14 @@
                 </form>
 
             }
+        }
+        <h4>Brands</h4>
+        @foreach(var item in Model.Brands)
+        {
+             <form asp-action="Brand" asp-controller="Catalog" method="post">
+                        <input name="brandId" type="hidden" value="@item.Id">
+                        <input type="submit" class="astextsubmit" value="@item.Name">
+                </form>
         }
         </div>
     </div>
