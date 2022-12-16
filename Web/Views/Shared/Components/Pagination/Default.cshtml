@@ -1,0 +1,28 @@
+﻿@using Web.ViewModels.Pagination
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PaginationHelper
+
+<div class="paginationButtonContainer">
+    @if (Model.NextIsEnabled)
+    {
+        <form asp-action="Index" asp-controller="Catalog" method="post">
+            <input type="hidden" name="page" value="@(Model.Page + 1)" />
+            <button type="submit" class="paginationButtonNext" id="searchbutton">Next Page</button>
+        </form>
+    }
+    @if (Model.PreviousIsEnabled)
+    {
+        <form asp-action="Index" asp-controller="Catalog" method="post">
+            <input type="hidden" name="page" value="@(Model.Page - 1)" />
+            <button type="submit" class="paginationButtonPrevious" id="searchbutton">Previous Page</button>
+        </form>
+    }
+
+    <p class="paginationText">Showing @Model.ProductsOnPage of @Model.ProductCount - Page @Model.Page of @Model.PageCount</p>
+
+</div>

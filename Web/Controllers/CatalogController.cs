@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
@@ -26,55 +27,52 @@ namespace Web.Controllers
             _services = services;
         }
 
-        public async Task<IActionResult> Index(int? productTypeSelected, int? brandSelected, int? productId, string? searchString, int? page)
+        public async Task<IActionResult> Index(int? productId, string? searchString, int? page)
         {
-            int productCount = await _services.GetProductCount(productTypeSelected, brandSelected, searchString);
-            var filteredProducts = await _services.GetProducts(productTypeSelected, brandSelected, searchString, page ?? 1, PagingUtilities.PageSize);
-            
-
+            int totalProductCount = await _services.GetProductCount(null, null, null);
+            var filteredProducts = await _services.GetProducts(null, null, searchString, page ?? 1, PagingUtilities.PageSize);
+ 
             IndexViewModel viewModel = new()
             {
                 Product = await _services.GetProductById(productId),
                 Products = filteredProducts,
-                ProductType = await _services.GetAllProductTypes(),
-                Brand = await _services.GetAllBrands(),
-                Category = await _services.GetAllCategories(),
-                PaginationHelper = new PaginationHelper
-                {
-                    Page = page ?? 1,
-                    ProductsOnPage = filteredProducts.Count(), // For view
-                    ProductCount = productCount, // For view
-                    PageCount = (int)Math.Ceiling(((decimal)productCount / PagingUtilities.PageSize))
-                }
+                TotalProductCount = totalProductCount,
+                Page = page ?? 1,
             };
-
-            viewModel.PaginationHelper.NextIsEnabled = ((page ?? 1) < viewModel.PaginationHelper.PageCount) ? true : false; 
-            viewModel.PaginationHelper.PreviousIsEnabled = (page > 1) ? true : false;
 
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Category(int productTypeSelected, int? page)
-        {
-            throw new NotImplementedException();
-        }
 
-        public IActionResult Category(IndexViewModel vm)
+        //public IActionResult Category(IndexViewModel vm)
+        //{
+        //    return View("Index", vm);
+        //}
+
+        [HttpPost]
+        public async Task<IActionResult> Category(int productTypeId, int? page)
         {
-            throw new NotImplementedException();
+            int totalProductCount = await _services.GetProductCount(productTypeId, null, null);
+            var filteredProducts = await _services.GetProducts(productTypeId, null, null, page ?? 1, PagingUtilities.PageSize);
+
+            IndexViewModel vm = new()
+            {
+                ProductTypeSelected = productTypeId,
+                Products = filteredProducts,
+                Page = page ?? 1,
+                TotalProductCount = totalProductCount,
+            };
+            return View("Index", vm);
         }
 
         [HttpPost]
-        public IActionResult Index(IndexViewModel vm, int? page)
+        public IActionResult Index(IndexViewModel vm)
         {
             // This is where we do validation
 
             return RedirectToAction("Index",
-                new { categorySelected = vm.CategorySelected, 
-                    productTypeSelected = vm.ProductTypeSelected, 
-                    brandSelected = vm.BrandSelected, 
-                    productId = vm.ProductId,
-                    page = page,
+                new {  productId = vm.ProductId,
+                    page = vm.Page
                 });
         }
 
