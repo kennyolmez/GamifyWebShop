@@ -12,17 +12,16 @@
     {
         <form asp-action="Index" asp-controller="Catalog" method="post">
             <input type="hidden" name="page" value="@(Model.Page + 1)" />
-            <button type="submit" class="paginationButtonNext" id="searchbutton">Next Page</button>
+            <button type="submit" class="next-button" id="searchbutton">Next Page &raquo;</button>
         </form>
     }
     @if (Model.PreviousIsEnabled)
     {
         <form asp-action="Index" asp-controller="Catalog" method="post">
             <input type="hidden" name="page" value="@(Model.Page - 1)" />
-            <button type="submit" class="paginationButtonPrevious" id="searchbutton">Previous Page</button>
+            <button type="submit" class="prev-button" id="searchbutton">&laquo; Previous Page</button>
         </form>
     }
 
     <p class="paginationText">Showing @Model.ProductsOnPage of @Model.ProductCount - Page @Model.Page of @Model.PageCount</p>
-
 </div>

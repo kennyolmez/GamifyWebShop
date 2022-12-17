@@ -6,7 +6,8 @@
 
 @model CheckoutViewModel
 
-<form asp-action="AutofillAddressInformation" asp-controller="Order" method="post">
+<form asp-action="AutofillAddressInformation" asp-controller="Order" method="post" class="postal-code-form">
+    <div class="create-order-container">
     <div class="postalContainer">
         <input type="text" name="postalCode" type="text" placeholder="Postal Code" class="postalCodeInput" />
         <button type="submit" class="btn btn-info">Service Point</button>
@@ -61,11 +62,12 @@
                 <input asp-for="StreetAddress" type="hidden" value=@(Model.StreetAddress ?? null)>
                 <input asp-for="City" type="hidden" value=@(Model.City ?? null)>
                 <input asp-for="AddressName" type="hidden" value=@(Model.AddressName ?? null)>
-                <button type="submit" class="btn btn-info">Place Order</button>
+                <button type="submit" class="order-button">Place Order</button>
                 <a asp-controller="Catalog"
-                   asp-action="Index" button type="submit" class="btn btn-info">Cancel Order</a>
+                   asp-action="Index" button type="submit" class="order-button">Cancel Order</a>
             </div>
 
+        </div>
         </div>
     </form>
 </div>

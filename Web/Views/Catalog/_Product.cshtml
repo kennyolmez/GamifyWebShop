@@ -31,20 +31,27 @@
         }
         <form asp-action="AddToCart" asp-controller="Cart" method="post">
             <input asp-for="@Model.ProductId" type="hidden" name="productId" value="@Model.Product.Id">
-            <input type="submit" class="addToCartButton" value="Add To Cart">
+            <input type="submit" class="btn" value="Add To Cart">
         </form>
     </div>
 </div>
 
 
 <form asp-action="PostReview" asp-controller="Review" method="post">
-    <div class="reviewContainer">
-        <div class="wrapperReview">
+   <div class="review-box">
+  <h3>Leave a Review</h3>
             <div asp-validation-summary="All">
-                <input asp-for="Comment" type="text" placeholder="Comment" class="reviewComment">
-                <input asp-for="Rating" type="number" placeholder="Rating" class="ratingInput">
+                  <textarea asp-for="Comment" class="commentInput" placeholder="Enter your review here...">
+                      </textarea>
+                @*<input asp-for="Comment" type="text" placeholder="Comment" class="reviewComment">*@
+                @*<input asp-for="Rating" type="number" placeholder="Rating" class="ratingInput">*@
+              <div class="rating">
+    <div class="quantity-update" onclick="decrementRating()">-</div>
+    <input asp-for="Rating" type="text" id="ratingInput" value="0" class="quantity-input">
+    <div class="quantity-update" onclick="incrementRating()">+</div>
+  </div>
                 <input type="hidden" name="productId" value="@Model.Product.Id" />
-                <button type="submit" class="postReviewButton">Post Review</button>
+                <button type="submit" class="btn">Post Review</button>
             </div>
         </div>
     </div>

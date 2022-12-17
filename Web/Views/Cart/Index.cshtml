@@ -21,7 +21,14 @@
                     </p>
                 </section>
                 <input type="hidden" name="@("productAndQuantity[" + i +"].Key")" value="@Model.UserCart.CartItems[i].Id" />
-                <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />
+               @* <input type="number" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" />*@
+
+                <div class="quantity-update" onclick="decrementValue('@i')">-</div>
+  <input type="text" name="@("productAndQuantity[" + i +"].Value")" value="@Model.UserCart.CartItems[i].Quantity" class="quantity-input quantity-input-@i" id="numberInput-@i" value="0">
+  <div class="quantity-update" onclick="incrementValue('@i')">+</div>
+
+                <div>
+</div>
                 <p class="itemPrice">@Model.UserCart.CartItems[i].Price kr</p>
                 <hr />
             }
@@ -34,10 +41,9 @@
         </div>
 
         <div class="buttonContainer">
-            <button type="submit" class="btn btn-info">Update Cart</button>
+            <button type="submit" class="cart-button">Update Cart</button>
 
-            <a asp-controller="Order"
-           asp-action="CreateOrder" button type="submit" class="btn btn-info">Go to Checkout</a>
+            <a asp-controller="Order" asp-action="CreateOrder" button type="submit" class="cart-button">Go to Checkout</a>
         </div>
     }
     else
