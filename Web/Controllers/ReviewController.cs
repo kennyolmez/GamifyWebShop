@@ -35,7 +35,7 @@ namespace Web.Controllers
             {
                 await _catalogService.AddReviewToCatalogProduct(model.Comment, model.Rating, _userId.Value, User.Identity.Name, model.ProductId);
 
-                return RedirectToAction("Index", "Catalog", new { productId = model.ProductId });
+                return RedirectToAction("Product", "Catalog", new { productId = model.ProductId });
             }
 
             // Create mapping between ViewModels here
@@ -44,9 +44,6 @@ namespace Web.Controllers
             IndexViewModel viewModel = new IndexViewModel
             {
                 Product = await _catalogService.GetProductById(model.ProductId),
-                ProductType = await _catalogService.GetAllProductTypes(),
-                Brand = await _catalogService.GetAllBrands(),
-                Category = await _catalogService.GetAllCategories(),
             };
 
             return View("Views/Catalog/Index.cshtml", viewModel);
