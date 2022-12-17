@@ -168,7 +168,8 @@ namespace ApplicationCore.Services
             }
             else if (brandSelected.HasValue)
             {
-                return await _context.Products.Where(x => x.BrandId == productTypeSelected).CountAsync();
+                var count = await _context.Products.Where(x => x.BrandId == brandSelected).CountAsync();
+                return count;
             }
             else if (productSearchString is not null)
             {
