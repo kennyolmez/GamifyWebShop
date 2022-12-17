@@ -24,6 +24,7 @@ namespace Infrastructure.Data
         public DbSet<ProductReview> Reviews { get; set; }
         public DbSet<PendingInvoiceMail> PendingInvoiceMails { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
 
         // base accesses members of the base class (identitydbcontext)
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

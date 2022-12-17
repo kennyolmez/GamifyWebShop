@@ -22,16 +22,17 @@ namespace ApplicationCore.Services
                                       string email,
                                       string fullName,
                                       string phoneNumber,
-                                      string zipCode,
+                                      string postalCode,
                                       string streetAddress,
                                       string city,
-                                      string? deliveryAddressName)
+                                      string deliveryAddressName)
         {
             var cart = new ShoppingCart("");
 
             if (buyerId is not null && cartId is not null)
             {
                 cart = await _context.ShoppingCarts.Include(x => x.CartProducts).Where(x => x.BuyerId == buyerId).FirstAsync();
+
 
                 var order = new Order(buyerId)
                 {
@@ -44,6 +45,13 @@ namespace ApplicationCore.Services
                         ProductBrand = x.ProductBrand,
                         ProductId = x.ProductId,
                     }).ToList(),
+                    DeliveryAddress = new DeliveryAddress
+                    {
+                        StreetAddress = streetAddress,
+                        City = city,
+                        PostalCode = postalCode,
+                        AddressName = deliveryAddressName,
+                    },
                     FullName = fullName,
                     PhoneNumber = phoneNumber,
                     Email = email,

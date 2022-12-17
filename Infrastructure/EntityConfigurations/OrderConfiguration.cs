@@ -17,6 +17,8 @@ namespace Infrastructure.EntityConfigurations
                 .WithOne(x => x.Order)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasKey(b => b.Id);
+
             builder.Property(b => b.BuyerId)
             .IsRequired()
             .HasMaxLength(256);

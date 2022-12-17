@@ -7,7 +7,6 @@
 @model CheckoutViewModel
 
 <form asp-action="AutofillAddressInformation" asp-controller="Order" method="post" class="postal-code-form">
-    <div class="create-order-container">
     <div class="postalContainer">
         <input type="text" name="postalCode" type="text" placeholder="Postal Code" class="postalCodeInput" />
         <button type="submit" class="btn btn-info">Service Point</button>
@@ -67,7 +66,6 @@
                    asp-action="Index" button type="submit" class="order-button">Cancel Order</a>
             </div>
 
-        </div>
         </div>
     </form>
 </div>

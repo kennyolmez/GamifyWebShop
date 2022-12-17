@@ -21,6 +21,7 @@ namespace Domain.Entities
         public string PhoneNumber { get; set; }
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
         public List<OrderItem> OrderItems { get; set; }
+        public DeliveryAddress DeliveryAddress { get; set; }
 
         public decimal TotalOrderPrice()
         {
