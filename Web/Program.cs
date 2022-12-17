@@ -113,6 +113,19 @@ app.UseAuthorization();
 
 app.UseSession();
 
+app.MapControllerRoute(name: "ProductName",
+                pattern: "/Product/{productId}",
+                defaults: new { controller = "Catalog", action = "Product" });
+
+app.MapControllerRoute(name: "BrandSelection",
+                pattern: "/Brand/{brandId}",
+                defaults: new { controller = "Catalog", action = "Brand" });
+
+app.MapControllerRoute(name: "CategorySelection",
+                pattern: "/Category/{productTypeId}",
+                defaults: new { controller = "Catalog", action = "Category" });
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Catalog}/{action=Index}/{id?}"

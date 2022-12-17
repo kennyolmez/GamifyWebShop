@@ -8,7 +8,7 @@
     @foreach (var product in Model.Products)
     {
         <div class="col-md-4 product" button>
-            <form asp-action="Index" asp-controller="Catalog" method="post" class="productCatalogForm">
+            <form asp-action="Product" asp-controller="Catalog" method="post" class="productCatalogForm">
                 <input asp-for="@Model.ProductId" type="hidden" value="@product.Id">
                 <button class="catalogButton">
                     <img src="@product.PictureUrl" class="catalogImg" />
